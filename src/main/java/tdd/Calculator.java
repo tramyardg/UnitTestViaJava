@@ -6,7 +6,7 @@ public class Calculator {
 
     }
 
-    public double average(double d) {
+    public double average() {
 	return Double.NaN;
     }
 

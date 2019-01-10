@@ -9,12 +9,11 @@ public class TestCalculator {
     private static final double TOLERANCE = 0.1;
 
     @Test
-    void testFirstMoment() {
-	Calculator ic = new Calculator();
-	ic.addElement(0.1);
-	ic.addElement(2.0);
-
-	assertEquals(-0.5, ic.average(2.0), TOLERANCE);
+    public void testAverage() {
+	Calculator calc = new Calculator();
+	calc.addElement(1.0);
+	calc.addElement(2.0);
+	assertEquals(1.5, calc.average(), TOLERANCE);
     }
 
 }
