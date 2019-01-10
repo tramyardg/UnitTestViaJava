@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class TestGenerator {
 
     @Test
-    void testGenerator() {
+    public void testGenerator() {
 	PageGenerator generator = new PageGenerator();
 	assertEquals("hello!", generator.generate());
     }

@@ -17,3 +17,22 @@ void testGenerator() {
 	assertEquals("hello!", generator.generate());
 }
 ```
+Run your test and let it fail. When it does, you have found out what the code actually does under the condition. 
+For instance, _PageGenerator_ actually generates the string _"hi!"_ when its _generate_ method is called:
+
+```java
+org.junit.ComparisonFailure: expected:<h[ello]!> but was:<h[i]!>
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at characterization.test.TestGenerator.testGenerator(TestGenerator.java:11)
+...
+```
+
+We can alter the test so it passes:
+
+```java
+void testGenerator() {
+	PageGenerator generator = new PageGenerator();
+	assertEquals("hi!", generator.generate());
+}
+```

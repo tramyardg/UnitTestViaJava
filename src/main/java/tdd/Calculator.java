@@ -31,4 +31,9 @@ public class Calculator {
 	return (totalVal / values.size());
     }
 
+    public double median() {
+	log.info("expected median {}", values.get(values.size() / 2));
+	return values.get(values.size() / 2);
+    }
+
 }
