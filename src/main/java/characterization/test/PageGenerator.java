@@ -2,8 +2,8 @@ package characterization.test;
 
 public class PageGenerator {
 
-	public String generate() {
-		return "";
-	}
+    public String generate() {
+	return "";
+    }
 
 }

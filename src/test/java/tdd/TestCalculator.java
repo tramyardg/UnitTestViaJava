@@ -6,15 +6,15 @@ import org.junit.Test;
 
 public class TestCalculator {
 
-	private static final double TOLERANCE = 0.1;
+    private static final double TOLERANCE = 0.1;
 
-	@Test
-	void testFirstMoment() {
-		Calculator ic = new Calculator();
-		ic.addElement(0.1);
-		ic.addElement(2.0);
+    @Test
+    void testFirstMoment() {
+	Calculator ic = new Calculator();
+	ic.addElement(0.1);
+	ic.addElement(2.0);
 
-		assertEquals(-0.5, ic.average(2.0), TOLERANCE);
-	}
+	assertEquals(-0.5, ic.average(2.0), TOLERANCE);
+    }
 
 }
