@@ -13,7 +13,21 @@ public class TestCalculator {
 	Calculator calc = new Calculator();
 	calc.addElement(1.0);
 	calc.addElement(2.0);
-	assertEquals(1.5, calc.average(), TOLERANCE);
+	try {
+	    assertEquals(1.5, calc.average(), TOLERANCE);
+	} catch (EmptyListException e) {
+	    e.printStackTrace();
+	}
+    }
+
+    @Test
+    public void testEmptyList() {
+	Calculator calc = new Calculator();
+	try {
+	    calc.average();
+	} catch (EmptyListException e) {
+	    e.printStackTrace();
+	}
     }
 
 }

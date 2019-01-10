@@ -18,8 +18,11 @@ public class Calculator {
 	this.values.add(d);
     }
 
-    public double average() {
-	log.info("calculating average...");
+    public double average() throws EmptyListException {
+	if (values.isEmpty()) {
+	    throw new EmptyListException();
+	}
+	log.info("calculating average");
 	double totalVal = 0.0;
 	for (int i = 0; i < values.size(); i++) {
 	    totalVal += values.get(i);
