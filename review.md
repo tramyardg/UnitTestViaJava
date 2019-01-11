@@ -26,13 +26,21 @@ You want to see the code behavior, so you make a failing test which tells you th
 Recall that the _iterator_ for the Stack class for Java is incorrect. Write a unit test that would characterize the actual behavior of the Java Stack's iterator.
 
 ```java
-Stack<Integer> stack = new Stack<Integer>();
-stack.push(1);
-stack.push(2);
-Integer val = 0;
-for(Integer i: stack) {
-	assertEquals(val, i, 0.1);
-	i++
+@Test
+public void testStack() {
+  Stack<Integer> stack = new Stack<Integer>();
+  stack.push(1);
+  stack.push(2);
+  Integer expectedVal = 1;
+  for (Integer stackElem : stack) {
+    log.info("stack elem {}", stackElem);
+    assertEquals(expectedVal, stackElem, 0.1);
+    stackElem++;
+  }
+  assertFalse(stack.isEmpty());
 }
-assertFalse.isEmpty();
+[main] INFO characterization.test.TestStack - stack [1, 2]
+[main] INFO characterization.test.TestStack - peek stack 2
+[main] INFO characterization.test.TestStack - stack elem 1
+[main] INFO characterization.test.TestStack - stack elem 2
 ```
