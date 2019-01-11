@@ -5,6 +5,7 @@ import java.util.Stack;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,5 +34,20 @@ public class TestStack {
 	// [main] INFO characterization.test.TestStack - peek stack 2
 	// [main] INFO characterization.test.TestStack - stack elem 1
 	// [main] INFO characterization.test.TestStack - stack elem 2
+    }
+
+    @Test
+    public void testMockStack() {
+	@SuppressWarnings("unchecked")
+	Stack<Integer> mockStack = mock(Stack.class);
+	when(mockStack.pop()).thenReturn(3, 2, 1);
+	log.info("pop {}", mockStack.pop());
+	log.info("pop {}", mockStack.pop());
+	log.info("pop {}", mockStack.pop());
+	log.info("pop {}", mockStack.pop());
+	// [main] INFO characterization.test.TestStack - pop 3
+	// [main] INFO characterization.test.TestStack - pop 2
+	// [main] INFO characterization.test.TestStack - pop 1
+	// [main] INFO characterization.test.TestStack - pop 1
     }
 }

@@ -44,3 +44,14 @@ public void testStack() {
 [main] INFO characterization.test.TestStack - stack elem 1
 [main] INFO characterization.test.TestStack - stack elem 2
 ```
+### What is the output of the following code?
+
+```java
+Stack<Integer> mockStack = mock(Stack.class);
+when(mockStack.pop()).thenReturn(3, 2, 1);
+mockStack.pop();
+mockStack.pop();
+mockStack.pop();
+mockStack.pop();
+```
+#### Answer > 3, 2, 1, 1
