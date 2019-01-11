@@ -14,4 +14,18 @@ Here we've introduced a new class, `ArtR56Display`. That class contains all of t
 
 ![sale with the display hierarchy](https://user-images.githubusercontent.com/5623994/51052684-63395680-15a5-11e9-91a8-13346e927065.png)
 
-The `Sale` class can now hold on to either an `ArtR56Display` or something else, a `FakeDisplay`. The nice thing about having a fake display is that we can write tests against it to find out what the `Sale` does.
+The `Sale` class can now hold on to either an `ArtR56Display` or something else, a `FakeDisplay`. The nice thing about having a fake display is that we can write tests against it to find out what the `Sale` does. 
+How does this work? Well, `Sale` accepts a display, and a display is an object of any class that implements the `Display` interface.
+
+In the `scan` method, the code calls the `showLine` method on the `display` variable. But what happens depends upon what kind of a display we gave the `sale` object when we created it. If we gave it an `ArtR56Display`, it attempts to display on the real cash register hardware. If we gave it `FakeDisplay`, it won't, but we will be able to see what would have been displayed. Here is a test we can use to see that:
+
+```java
+public class SaleTest extends TestCase {
+  public void testDisplayAnItem() {
+    FakeDisplay display = new FakeDisplay();
+    Sale sale = new Sale(display);
+    sale.scan("1");
+    assertEquals("Milk $3.99", display.getLastLine());
+  }
+}
+``` 

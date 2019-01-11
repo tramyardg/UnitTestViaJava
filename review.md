@@ -20,6 +20,12 @@
   - __sensing__: we break dependencies to _sense_ when we can't access values our code computes.
   - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
 
+## Source Code
+|src|Main |Test |
+|---|-----|-----|
+|TDD|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/tdd)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/tdd)|
+|Characterization test|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/characterization/test)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/characterization/test)|
+|Dependency breaking|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/dependency/breaking)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/dependency/breaking)|
 
 ## TDD Algorithm
 1. Write a failing test case.
