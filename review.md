@@ -4,6 +4,7 @@
 - [TDD Algorithm](#tdd-algorithm)
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)
+- [Git Bisect Question](#git-bisect-question)
 
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -64,3 +65,14 @@ mockStack.pop();
 mockStack.pop();
 ```
 #### Answer > 3, 2, 1, 1
+
+## Git Bisect Question
+The idea behind `git bisect` is to perform a binary search in the history to find a particular regression.
+
+You could try to check out each commit, build it, check if the regression is present or not. If there is a large number of commits, this can take a long time. This is a linear search. We can do better by doing a binary search. This is what the `git bisect` command does. At each step it tries to reduce the number of revisions that are potentially bad by half.
+
+Git bisect on the following sequence of commits. You get fail,
+pass, fail, which is the culprint of commit?
+- 1----2----3----4----5----6----7----8----9
+
+#### Answer > 4
