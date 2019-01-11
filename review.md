@@ -16,6 +16,10 @@
 - __mockito mocks objects using__: reflection and a proxy object.
 - __two characteristics of unit test__: test runs fasts and test help localize problems.
 - __characterization test__ is a test written to document the current behavior of a piece of code. The tests document the actual behavior of the system.
+- There are two reasons to break dependencies: _sensing_ and _separation_
+  - __sensing__: we break dependencies to _sense_ when we can't access values our code computes.
+  - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
+
 
 ## TDD Algorithm
 1. Write a failing test case.
