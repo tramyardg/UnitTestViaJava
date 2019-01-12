@@ -1,4 +1,4 @@
-package dependency.breaking;
+package dependency.breaking.pos;
 
 import java.util.HashMap;
 

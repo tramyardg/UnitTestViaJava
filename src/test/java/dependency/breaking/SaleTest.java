@@ -2,6 +2,10 @@ package dependency.breaking;
 
 import org.junit.Test;
 
+import dependency.breaking.pos.FakeDisplay;
+import dependency.breaking.pos.FakeStorage;
+import dependency.breaking.pos.HashStorage;
+import dependency.breaking.pos.Sale;
 import junit.framework.TestCase;
 
 public class SaleTest extends TestCase {

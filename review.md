@@ -1,6 +1,7 @@
 # Review SOEN 345
 ## Table of Contents
 - [Glossary](#glossary)
+- [Source Code](#source-code)
 - [TDD Algorithm](#tdd-algorithm)
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)

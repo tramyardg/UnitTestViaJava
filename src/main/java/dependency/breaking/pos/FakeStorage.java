@@ -1,4 +1,4 @@
-package dependency.breaking;
+package dependency.breaking.pos;
 
 public class FakeStorage implements IStorage {
 
