@@ -15,6 +15,11 @@ public class Sale {
 	this.storage = storage;
     }
     
+    public Sale(IDisplay display, HashStorage storage) {
+	this.display = display;
+	this.storage = storage;
+    }
+    
     public void scan(String barcode) {
 	display.showLine(barcode);
 	display.showLine(storage.barcode(barcode));
