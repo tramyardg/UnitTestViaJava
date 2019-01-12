@@ -23,5 +23,10 @@ public class MockitoTest {
 	verify(mockList).add("zero");
 	verify(mockList).clear();
     }
+    
+    @Test
+    public void testStubbing() {
+	
+    }
 
 }

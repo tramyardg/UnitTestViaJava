@@ -1,5 +1,5 @@
-### Verifying some behavior`
-Verify that the method was called.
+### Verifying some behavior
+The `verify(...).method()` or `verify(...).method()` verifies that the method was called.
 ```java
   @Test
   public void testVerify() {
@@ -14,3 +14,4 @@ Verify that the method was called.
 ```
 
 ### Testing with stubbing
+Mocking concrete classes and/or interfaces by `when(...).thenReturn(...)`
