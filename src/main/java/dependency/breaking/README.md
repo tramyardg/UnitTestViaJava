@@ -31,3 +31,9 @@ public class SaleTest extends TestCase {
 ```
 
 The `showLine` method accepts line of text and assigns it to the `lastLine` variable. The `getLastLine()` method returns that line of text whenever it is called. This is pretty slim behavior, but it helps us a lot. With the test we've written, we can find out whether the right text will be sent to the display when the `Sale` class is used.
+
+![two sides to a fake object](https://user-images.githubusercontent.com/5623994/51065875-3ef56e00-15d5-11e9-8618-9945586a9ece.png)
+
+The `showLine` method is needed on `FakeDisplay` because `FakeDisplay` implements `Display`. It is the only method on `Display` and the only one that `Sale` will see. The other method, `getLastLine()`, is for the use of the test. That is why we declare `display` as a `FakeDisplay`, not a `Display`.
+
+The `Sale` class will see the fake display as `Display`, but in the test, we need to hold on to the object as `FakeDisplay`. If we don't, we won't be able to call `getlastLine()` to find out what the sale displays. 

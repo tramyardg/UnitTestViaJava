@@ -3,7 +3,7 @@ package dependency.breaking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ArtR56Display implements Display {
+public class ArtR56Display implements IDisplay {
 
     private final Logger log = LoggerFactory.getLogger(ArtR56Display.class);
     

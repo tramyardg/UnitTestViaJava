@@ -1,6 +1,6 @@
 package dependency.breaking;
 
-public interface Display {
+public interface IDisplay {
 
     void showLine(String line);
 
