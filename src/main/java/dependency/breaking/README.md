@@ -24,8 +24,10 @@ public class SaleTest extends TestCase {
   public void testDisplayAnItem() {
     FakeDisplay display = new FakeDisplay();
     Sale sale = new Sale(display);
-    sale.scan("1");
+    sale.scan("Milk $3.99");
     assertEquals("Milk $3.99", display.getLastLine());
   }
 }
-``` 
+```
+
+The `showLine` method accepts line of text and assigns it to the `lastLine` variable. The `getLastLine()` method returns that line of text whenever it is called. This is pretty slim behavior, but it helps us a lot. With the test we've written, we can find out whether the right text will be sent to the display when the `Sale` class is used.

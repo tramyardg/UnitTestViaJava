@@ -10,7 +10,7 @@ public class Sale {
     }
     
     public void scan(String barcode) {
-	display.showLine("barcode " + barcode);
+	display.showLine(barcode);
     }
     
 }
