@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ public class MockitoTest {
 
     private final Logger log = LoggerFactory.getLogger(MockitoTest.class);
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testVerify() {
 	List<String> mockList = mock(List.class);
@@ -26,10 +28,12 @@ public class MockitoTest {
 	verify(mockList).clear();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testStubbing() {
 	LinkedList<String> mockList = mock(LinkedList.class);
 	when(mockList.get(0)).thenReturn("first");
+	// method chain can be used to throw an exception
 	when(mockList.get(1)).thenThrow(new RuntimeException());
 
 	log.info("{}", mockList.get(0));
@@ -38,6 +42,7 @@ public class MockitoTest {
 	log.info("{}", mockList.get(3)); // null
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testMoreThanOneReturnValue() {
 	Iterator<String> i = mock(Iterator.class);
@@ -46,6 +51,26 @@ public class MockitoTest {
 	String result = i.next() + " " + i.next();
 	log.info("mockito rocks? {}", result);
 	assertEquals("Mockito rocks", result);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReturnValue() {
+	Comparable<String> c = mock(Comparable.class);
+	when(c.compareTo("one")).thenReturn(1);
+	when(c.compareTo("two")).thenReturn(2);
+	assertEquals(1, c.compareTo("one"));
+	assertEquals(2, c.compareTo("two"));
+	
+	Comparable<Integer> c2 = mock(Comparable.class);
+	when(c2.compareTo(anyInt())).thenReturn(-1);
+	assertEquals(-1, c2.compareTo(9));
+	
+	LinkedList<String> mockList = mock(LinkedList.class);
+	when(mockList.get(anyInt())).thenReturn("element");
+	// prints element
+	log.info("{}", mockList.get(222));
+	verify(mockList).get(anyInt());
     }
 
 }
