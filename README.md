@@ -226,68 +226,70 @@ To _Supersede Instance Variable_, follow these steps:
 ### Sale Example
 ```java
 public class Sale {
-    private Display display;
-    private Storage storage;
-    private Interact interac;
-    
-    public Sale(Display display, Storage storage) {
-		this(display, storage, new Interac(12));
-	}
+  private Display display;
+  private Storage storage;
+  private Interact interac;
+  
+  public Sale(Display display, Storage storage) {
+    this(display, storage, new Interac(12));
+  }
 	
-	public Sale(Display display, Storage storage, Interac interac) {
-		this.display = display;
-		this.storage = storage;
-		this.interac = interac;
-	}
-	
-	public void supersedeInteract(Interac interac) {
-	    interac = interac;
-	}
+  public Sale(Display display, Storage storage, Interac interac) {
+	this.display = display;
+	this.storage = storage;
+	this.interac = interac;
+  }
+  
+  public void supersedeInteract(Interac interac) {
+    interac = interac;
+  }
 }
 ```
 Now the test:
 ```java
 @Test
 public void testSupersedeInterac() {
-    Display mockDisplay = mock(Display.class);
-    Storage mockStorage = mock(Storage.class);
-    Interac mockInterac = mock(Interac.class);
-    
-    Sale sale = new Sale(mockDisplay, mockStorage);
-    sale.supersedeInterac(mockInterac);
+  Display mockDisplay = mock(Display.class);
+  Storage mockStorage = mock(Storage.class);
+  Interac mockInterac = mock(Interac.class);
+  // call to the original constructor (the one without the instance variable to supersede) 
+  // and pass in the mocked classes
+  Sale sale = new Sale(mockDisplay, mockStorage);
+  // supersede interac
+  sale.supersedeInterac(mockInterac);
 }
 ```
 
 ### Pane Example
 ```java
 class Pane {
-    private FocusWidget cursor;
+  private FocusWidget cursor;
     
-    public Pane(WashBrush brush, Pattern backdrop) {
-        ...
-        this.cursor = new FocusWidget(brush, backdrop);
-        ...
-    }
+  public Pane(WashBrush brush, Pattern backdrop) {
+    ...
+    this.cursor = new FocusWidget(brush, backdrop);
+    ...
+  }
     
-    // superseding the instance variable cursor
-    public void supersedeCursor(FocusWidget newCursor) {
-        cursor = newCursor;
-    }
+  // superseding the instance variable cursor
+  public void supersedeCursor(FocusWidget newCursor) {
+    cursor = newCursor;
+  }
 }
 ```
 Now the test:
 ```java
 @Test
 public void testSupersedeCursor() {
-    WashBrush mockBrush = mock(WashBrush.class);
-    Pattern mockPattern = mock(Pattern.class);
-    
-    Pane pane = new Pane(mockBrush, mockPattern);
-    FocusWidget cursor = mock(FocusWidget.class);
-    pane.supersedeCursor(cursor);
-    
-    // or with fakes
-    FakeFocusWidget cursor2 = new FakeFocusWidget();
-    pane.supersedeCursor(cursor2);
+  WashBrush mockBrush = mock(WashBrush.class);
+  Pattern mockPattern = mock(Pattern.class);
+
+  Pane pane = new Pane(mockBrush, mockPattern);
+  FocusWidget cursor = mock(FocusWidget.class);
+  pane.supersedeCursor(cursor);
+
+  // or with fakes
+  FakeFocusWidget cursor2 = new FakeFocusWidget();
+  pane.supersedeCursor(cursor2);
 }
 ```
