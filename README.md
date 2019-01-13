@@ -7,6 +7,8 @@
 - [Java Stack Iterator Question](#java-stack-iterator-question)
 - [Git Bisect Question](#git-bisect-question)
 - [Parameterize Constructor](#parameterize-constructor)
+  - [MailChecker](#mail-checker-example)
+  - [Pixel](#pixel-example)
 
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -92,8 +94,9 @@ pass, fail, which is the culprint of commit?
 #### Answer > 4
 
 ## Parameterize Constructor
-If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here is an example.
+If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
 
+### Mail checker example
 We start with this:
 ```java
 public class MailChecker {
@@ -131,5 +134,49 @@ public class MailChecker {
     this.checkPeriodSeconds = checkPeriodSeconds;
   }
   ...
+}
+```
+
+Steps
+To _Parameterize Constructor_, follow these steps:
+1. Identify the constructor that you want to parameterize and make a copy of it.
+2. Add a parameter to the constructor for the object whose creation you are going to replace. Remove the object creation and add an assignment from the parameter instance variable for the object.
+3. If you can call a constructor from a constructor in your language, remove the body of the old constructor and replace it with a call to the old constructor. Add a new expression to the call of the new constructor in the old constructor. If you can't call a constructor from another constructor in your language, you may have to extract any duplication among the constructors to a new method.
+
+### Pixel example
+Consider the following constructor:
+```java
+public Pixel {
+  public Pixel(Color color) {
+    this.color = color;
+    this.position = new Position(23, 4, 52);
+  }
+  ...
+}
+```
+
+1. Parameterize the constructor
+2. Make the change behavior preserving
+3. Mock out the position and color
+
+```java
+public Pixel {
+  public Pixel(Color color) {
+    this(new Position(23, 4, 52), color);
+  }
+  public Pixel(Position position, Color color) {
+    this.color = color;
+    this.position = position;
+  }
+  ...
+}
+```
+For number three:
+```java
+@Test
+public void test() {
+    Position position = mock(Position.class);
+    Color color = mock(Color.class);
+    Pixel pixel = new Pixel(position, color);
 }
 ```

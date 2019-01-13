@@ -14,7 +14,6 @@ The `BankAccount` code is dependent on the old EFTPOS terminal.
 ```java
 IPad ipad = mock(IPad.class);
 BankAccount account = new BankAccount(ipad);
-
 account.withdraw(200.0);
 verify(ipad).displayLine(200.0);
 ```
