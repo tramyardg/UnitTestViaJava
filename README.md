@@ -10,7 +10,11 @@
   - [MailChecker](#mail-checker-example)
   - [Pixel](#pixel-example)
 - [Flaky Test](#flaky-test)
-
+- [Construction Blob](#construction-blob)
+- [Supersede Instance Variable](#supersede-instance-variable)
+  - [Sale](#sale-example)
+  - [Pane](#pane-example)
+  
 ## Glossary
 - __legacy code__ is simply code without tests.
 - __unit test__ is a test that runs in less than 1/10th of a second and is small enough to help you localize problems when it fails.
@@ -25,6 +29,7 @@
   - __sensing__: we break dependencies to _sense_ when we can't access values our code computes.
   - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
 - __flaky test__ is a non-deterministic test.
+- __hidden dependency__: the constructor in the class under test uses some resources that we can't access in our test harness.
 
 ## Source Code
 |src|Main |Test |
@@ -206,3 +211,83 @@ A flaky test is a non-deterministic test.
   - asynchronous calls
 - Accidental non-determinism: old and out-of-date tests introduce flakiness
 
+### Construction Blob
+The case of construction blob
+- The constructor creates many objects.
+- We could parameterize constructors but the parameter list would become massive.
+- We can supersede instance variable.
+
+### Supersede Instance Variable
+To _Supersede Instance Variable_, follow these steps:
+1. Identify the instance variable that you want to supersede.
+2. Create a method named `supersedeXXX`, where `XXX` is the named of the variable you want to supersede.
+3. In the method, write whatever code you need to, so that you destroy the previous instance of the variable and set it to the new value. If the variable is a reference, verify that there are not any other references in the class to the object it points to. If there are you might have an additional work to do in superseding method to make sure that replacing the object is safe and has the right effect.
+
+### Sale Example
+```java
+public class Sale {
+    private Display display;
+    private Storage storage;
+    private Interact interac;
+    
+    public Sale(Display display, Storage storage) {
+		this(display, storage, new Interac(12));
+	}
+	
+	public Sale(Display display, Storage storage, Interac interac) {
+		this.display = display;
+		this.storage = storage;
+		this.interac = interac;
+	}
+	
+	public void supersedeInteract(Interac interac) {
+	    interac = interac;
+	}
+}
+```
+Now the test:
+```java
+@Test
+public void testSupersedeInterac() {
+    Display mockDisplay = mock(Display.class);
+    Storage mockStorage = mock(Storage.class);
+    Interac mockInterac = mock(Interac.class);
+    
+    Sale sale = new Sale(mockDisplay, mockStorage);
+    sale.supersedeInterac(mockInterac);
+}
+```
+
+### Pane Example
+```java
+class Pane {
+    private FocusWidget cursor;
+    
+    public Pane(WashBrush brush, Pattern backdrop) {
+        ...
+        this.cursor = new FocusWidget(brush, backdrop);
+        ...
+    }
+    
+    // superseding the instance variable cursor
+    public void supersedeCursor(FocusWidget newCursor) {
+        cursor = newCursor;
+    }
+}
+```
+Now the test:
+```java
+@Test
+public void testSupersedeCursor() {
+    WashBrush mockBrush = mock(WashBrush.class);
+    Pattern mockPattern = mock(Pattern.class);
+    
+    Pane pane = new Pane(mockBrush, mockPattern);
+    FocusWidget cursor = mock(FocusWidget.class);
+    pane.supersedeCursor(cursor);
+    
+    // or with fakes
+    FakeFocusWidget cursor2 = new FakeFocusWidget();
+    pane.supersedeCursor(cursor2);
+}
+```
