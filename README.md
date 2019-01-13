@@ -9,6 +9,7 @@
 - [Parameterize Constructor](#parameterize-constructor)
   - [MailChecker](#mail-checker-example)
   - [Pixel](#pixel-example)
+- [Flaky Test](#flaky-test)
 
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -23,6 +24,7 @@
 - There are two reasons to break dependencies: _sensing_ and _separation_
   - __sensing__: we break dependencies to _sense_ when we can't access values our code computes.
   - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
+- __flaky test__ is a non-deterministic test.
 
 ## Source Code
 |src|Main |Test |
@@ -93,13 +95,15 @@ The __goal__ is find the first commit that fails a test and this is the procedur
 - if test passes, then bug is in the _right half_
 - repeat
 
-### Example 1
+**Example 1**
+
 Git bisect on the following sequence of commits. You get `fail/bad`,
 `pass/good`, `fail/bad`, which is the culprint of commit?
 - 1----2----3----4----5----6----7----8----9
-#### Answer > 4
 
-### Example 2
+Answer: 4
+
+**Example 2**
 ![image](https://user-images.githubusercontent.com/5623994/51081806-611ae900-16c6-11e9-9881-98bfc6f795ab.png)
 
 ## Parameterize Constructor
@@ -189,3 +193,16 @@ public void test() {
     Pixel pixel = new Pixel(position, color);
 }
 ```
+
+### Flaky Test
+A flaky test is a non-deterministic test.
+- Test should fail when there is a problem and pass when there is no problem
+- Flaky test can pass and fail on the same build!
+- Flaky tests fail even when there is no problem. This destroys developer confidence in tests.
+
+**Sources of non-determinism**
+- Inherent non-determinism
+  - noisy or complex test environment
+  - asynchronous calls
+- Accidental non-determinism: old and out-of-date tests introduce flakiness
+
