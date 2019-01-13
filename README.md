@@ -5,7 +5,7 @@
 - [TDD Algorithm](#tdd-algorithm)
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)
-- [Git Bisect Question](#git-bisect-question)
+- [Git Bisect](#git-bisect)
 - [Parameterize Constructor](#parameterize-constructor)
   - [MailChecker](#mail-checker-example)
   - [Pixel](#pixel-example)
@@ -82,16 +82,25 @@ mockStack.pop();
 ```
 #### Answer > 3, 2, 1, 1
 
-## Git Bisect Question
+## Git Bisect
 The idea behind `git bisect` is to perform a binary search in the history to find a particular regression.
 
 You could try to check out each commit, build it, check if the regression is present or not. If there is a large number of commits, this can take a long time. This is a linear search. We can do better by doing a binary search. This is what the `git bisect` command does. At each step it tries to reduce the number of revisions that are potentially bad by half.
 
-Git bisect on the following sequence of commits. You get fail,
-pass, fail, which is the culprint of commit?
-- 1----2----3----4----5----6----7----8----9
+The __goal__ is find the first commit that fails a test and this is the procedure for finding that commit:
+- split the suspect commits in half
+- if test fails, then bug is in the _left half_
+- if test passes, then bug is in the _right half_
+- repeat
 
+### Example 1
+Git bisect on the following sequence of commits. You get `fail/bad`,
+`pass/good`, `fail/bad`, which is the culprint of commit?
+- 1----2----3----4----5----6----7----8----9
 #### Answer > 4
+
+### Example 2
+![image](https://user-images.githubusercontent.com/5623994/51081806-611ae900-16c6-11e9-9881-98bfc6f795ab.png)
 
 ## Parameterize Constructor
 If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
