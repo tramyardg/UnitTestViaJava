@@ -6,6 +6,7 @@
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)
 - [Git Bisect Question](#git-bisect-question)
+- [Parameterize Constructor](#parameterize-constructor)
 
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -89,3 +90,46 @@ pass, fail, which is the culprint of commit?
 - 1----2----3----4----5----6----7----8----9
 
 #### Answer > 4
+
+## Parameterize Constructor
+If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here is an example.
+
+We start with this:
+```java
+public class MailChecker {
+  public MailChecker(int checkPeriodSeconds) {
+    this.receiver = new MailReceiver();
+    this.checkPeriodSeconds = checkPeriodSecond;
+  }
+  ...
+}
+```
+
+Then we make a copy of the constructor, add parameter `MailReceiver receiver`, and assign that parameter to the instance variable getting rid of the `new` expression:
+```java
+public class MailChecker {
+  public MailChecker(int checkPeriodSeconds) {
+    this.receiver = new MailReceiver();
+    this.checkPeriodSeconds = checkPeriodSecond;
+  }
+  public MailChecker(MailReceiver receiver, int checkPeriodSeconds) {
+    this.receiver = receiver;
+    this.checkPeriodSeconds = checkPeriodSeconds;
+  }
+  ...
+}
+```
+
+Lastly, we go back to the original constructor and remove its body, replacing it with a call to new constructor. The original constructor uses `new` to create the parameter it needs to pass.
+```java
+public class MailChecker {
+  public MailChecker(int checkPeriodSeconds) {
+      this(new MailReceiver(), checkPeriodSeconds);
+  }
+  public MailChecker(MailReceiver receiver, int checkPeriodSeconds) {
+    this.receiver = receiver;
+    this.checkPeriodSeconds = checkPeriodSeconds;
+  }
+  ...
+}
+```
