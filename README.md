@@ -14,6 +14,9 @@
 - [Supersede Instance Variable](#supersede-instance-variable)
   - [Sale](#sale-example)
   - [Pane](#pane-example)
+- [Irritating Global Dependency](#irritating-global-dependency)
+  - Singleton pattern
+  - Reset singleton instance for testing
   
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -145,7 +148,7 @@ Lastly, we go back to the original constructor and remove its body, replacing it
 ```java
 public class MailChecker {
   public MailChecker(int checkPeriodSeconds) {
-      this(new MailReceiver(), checkPeriodSeconds);
+    this(new MailReceiver(), checkPeriodSeconds);
   }
   public MailChecker(MailReceiver receiver, int checkPeriodSeconds) {
     this.receiver = receiver;
@@ -193,9 +196,9 @@ For number three:
 ```java
 @Test
 public void test() {
-    Position position = mock(Position.class);
-    Color color = mock(Color.class);
-    Pixel pixel = new Pixel(position, color);
+  Position position = mock(Position.class);
+  Color color = mock(Color.class);
+  Pixel pixel = new Pixel(position, color);
 }
 ```
 
@@ -235,9 +238,9 @@ public class Sale {
   }
 	
   public Sale(Display display, Storage storage, Interac interac) {
-	this.display = display;
-	this.storage = storage;
-	this.interac = interac;
+    this.display = display;
+    this.storage = storage;
+    this.interac = interac;
   }
   
   public void supersedeInteract(Interac interac) {
@@ -264,13 +267,11 @@ public void testSupersedeInterac() {
 ```java
 class Pane {
   private FocusWidget cursor;
-    
   public Pane(WashBrush brush, Pattern backdrop) {
     ...
     this.cursor = new FocusWidget(brush, backdrop);
     ...
   }
-    
   // superseding the instance variable cursor
   public void supersedeCursor(FocusWidget newCursor) {
     cursor = newCursor;
@@ -291,5 +292,56 @@ public void testSupersedeCursor() {
   // or with fakes
   FakeFocusWidget cursor2 = new FakeFocusWidget();
   pane.supersedeCursor(cursor2);
+}
+```
+
+### Irritating Global Dependency
+- In Java, the singleton pattern is one of the mechanisms people use to make global variables.
+- The whole idea of the singleton pattern is to make it impossible to create more than one instance of a singleton in an application.
+- That might be fine in production code, but, it is particularly hard to fake and when testing, each test in a suite of tests should be a mini-application, in a way: It should be totally isolated from the other tests.
+
+So, to run code containing singletons in a test harness, we have to relax the singleton property. Here’s how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
+
+Applying the first step, the singleton class `PermitRepository` becomes:
+
+```java
+public class PermitRepository {
+  private static PermitRepository instance = null;
+  private PermitRepository() {}
+  // introduce static setter
+  public static setTestingInstance(PermitRepository newInstance) {
+    instance = newInstance;
+  }
+  public static getInstance() {
+    if (instance == null) {
+      instance = new PermitRepository();
+    }
+    return instance;
+  }
+  ...
+}
+```
+
+Now, we'd like to write code like this in our test setup.
+
+```java
+@Before
+public void setUp() {
+  PermitRepository repository = new PermitRepository();
+  PermitRepository.setTestingInstance(repository);
+  ...
+}
+```
+
+ Introducing static setter is not the only way of handling this situation. Another approach is to add a `resetForTesting()` method to the singleton that looks like this:
+
+```java
+public class PermitRepository {
+  private static PermitRepository instance = null;
+  ...
+  public static void resetForTesting() {
+    instance = null;
+  }
+  ...
 }
 ```
