@@ -72,5 +72,24 @@ public class MockitoTest {
 	log.info("{}", mockList.get(222));
 	verify(mockList).get(anyInt());
     }
+    
+    @Test
+    public void testSpy() {
+	List list = new LinkedList();
+	List spy = spy(list);
+	// optionally, you can stub out some methods:
+	when(spy.size()).thenReturn(100);
+	// using the spy calls *real* objects
+	spy.add("1");
+	spy.add("2");
+	// prints "1" - the first element of the list
+	log.info("get first elem using spy -> {}", spy.get(0));
+	log.info("get list size using spy -> {}", spy.size());
+	
+	verify(spy).add("1");
+	verify(spy).add("2");
+	// will fail
+	// verify(spy).add("one");
+    }
 
 }

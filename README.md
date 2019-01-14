@@ -300,7 +300,7 @@ public void testSupersedeCursor() {
 - The whole idea of the singleton pattern is to make it impossible to create more than one instance of a singleton in an application.
 - That might be fine in production code, but, it is particularly hard to fake and when testing, each test in a suite of tests should be a mini-application, in a way: It should be totally isolated from the other tests.
 
-So, to run code containing singletons in a test harness, we have to relax the singleton property. Here’s how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
+So, to run code containing singletons in a test harness, we have to relax the singleton property. Here's how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
 
 Applying the first step, the singleton class `PermitRepository` becomes:
 
