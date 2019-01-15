@@ -19,6 +19,7 @@ public class TestStack {
 	Stack<Integer> stack = new Stack<Integer>();
 	stack.push(1);
 	stack.push(2);
+	log.info("stack peek {}", stack.peek());
 	log.info("stack {}", stack.toString());
 	// stack [1, 2]
 	log.info("peek stack {}", stack.peek());

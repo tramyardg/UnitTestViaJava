@@ -58,6 +58,19 @@ You want to see the code behavior, so you make a failing test which tells you th
 4. Change the test so that it expects the behavior that the code produces.
 5. Repeat.
 
+**Step by step sample**
+1. Get the code in a test harness.
+`java.util.Stack;`
+2. Write an assertion that you know will fail.
+`push(1);`
+`push(2);`
+`assertEquals(-1, pop());`
+3. Let the failure tell you what the behavior is.
+`prints 2`
+4. Change the test so that it expects the behavior that the code produces.
+`assertEquals(2, pop());`
+5. Repeat
+
 ## Java Stack Iterator Question
 Recall that the _iterator_ for the Stack class for Java is incorrect. Write a unit test that would characterize the actual behavior of the Java Stack's iterator.
 
