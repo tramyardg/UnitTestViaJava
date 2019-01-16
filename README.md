@@ -17,6 +17,7 @@
 - [Irritating Global Dependency](#irritating-global-dependency)
   - Singleton pattern
   - Reset singleton instance for testing
+- [Dependency Injection](#dependency-injection)  
   
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -359,5 +360,38 @@ public class PermitRepository {
     instance = null;
   }
   ...
+}
+```
+
+## Dependency Injection
+Dependency injection is basically providing the objects that an object needs (its dependencies) instead of having it construct them itself. It's a very useful technique for testing, since it allows dependencies to be mocked or stubbed out.
+- means giving an object its instance variables
+- all parameters to be passed in through the constructor
+- [stackoverflow](https://stackoverflow.com/questions/130794/what-is-dependency-injection)
+
+**Without dependency injection**
+
+```java
+class Car{
+  private Wheel wh = new NepaliRubberWheel();
+  private Battery bt = new ExcideBattery();
+  ...
+}
+```
+
+**After using dependency injection**
+Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
+```java
+class Car{
+  private Wheel wh = [Inject an Instance of Wheel (dependency of car) at runtime]
+  private Battery bt = [Inject an Instance of Battery (dependency of car) at runtime]
+  Car(Wheel wh,Battery bt) {
+      this.wh = wh;
+      this.bt = bt;
+  }
+  //Or we can have setters
+  void setWheel(Wheel wh) {
+      this.wh = wh;
+  }
 }
 ```

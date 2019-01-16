@@ -17,3 +17,9 @@ BankAccount account = new BankAccount(ipad);
 account.withdraw(200.0);
 verify(ipad).displayLine(200.0);
 ```
+
+**Which design pattern are we using?**
+
+**Adapter Pattern**
+- Problem: How to resolve incompatible interfaces, or provide a stable interface to similar components with different interfaces?
+- Solution: Convert the interface of a class into another interface clients expect. 
