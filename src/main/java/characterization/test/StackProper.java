@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 @SuppressWarnings("serial")
-public class TestStackProper<E> extends Stack<E> {
+public class StackProper<E> extends Stack<E> {
     
     @Override
     public synchronized Iterator<E> iterator() {

@@ -25,17 +25,14 @@ public class TestStack {
 	log.info("stack {}", stack.toString());
 	// peek stack 2
 	log.info("peek stack {}", stack.peek());
-	
-	/* expected behavior but this will fail
-	 * failure trace: expected: <2> but was: <1>
-	int expectedVal = 2;
-	for (Integer stackElem : stack) {
-	    log.info("stack elem {}", stackElem);
-	    assertEquals(expectedVal, stackElem.intValue());
-	    expectedVal--;
-	}
-	*/
-	
+
+	/*
+	 * expected behavior but this will fail failure trace: expected: <2> but
+	 * was: <1> int expectedVal = 2; for (Integer stackElem : stack) {
+	 * log.info("stack elem {}", stackElem); assertEquals(expectedVal,
+	 * stackElem.intValue()); expectedVal--; }
+	 */
+
 	int expectedVal = 1;
 	for (Integer stackElem : stack) {
 	    log.info("stack elem {}", stackElem);
@@ -58,17 +55,33 @@ public class TestStack {
 	// [main] INFO characterization.test.TestStack - pop 2
 	// [main] INFO characterization.test.TestStack - pop 1
 	// [main] INFO characterization.test.TestStack - pop 1
-	
+
 	// will fail (NullPointerException)
 	// log.info("peek {}", mockStack.peek().intValue());
     }
-    
+
     @Test
     public void testStackIteratorType() {
 	Stack<Integer> stack = new Stack<Integer>();
 	Iterator it = stack.iterator();
 	log.info("stack iterator type {}", it.getClass().getName());
-	// [main] INFO characterization.test.TestStack - stack iterator type java.util.Vector$Itr
+	// [main] INFO characterization.test.TestStack - stack iterator type
+	// java.util.Vector$Itr
 	assertEquals(it.getClass(), (new Vector()).iterator().getClass());
+    }
+
+    @Test
+    public void testStackProper() {
+	StackProper<Integer> stack = new StackProper<Integer>();
+	stack.push(1);
+	stack.push(2);
+	stack.push(3);
+	stack.push(4);
+	int expectedVal = 4;
+	for (Integer elem : stack) {
+	    log.info("stack elem: {}", elem.intValue());
+	    assertEquals(expectedVal, elem.intValue());
+	    expectedVal--;
+	}
     }
 }
