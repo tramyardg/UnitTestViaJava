@@ -24,6 +24,7 @@ public class SaleTest extends TestCase {
 	FakeDisplay display = new FakeDisplay();
 	Sale sale = new Sale(display, storage);
 	sale.scan("Milk $3.99");
+	System.out.println(display.getLastLine());
 	assertEquals("Milk $3.99", display.getLastLine());
     }
     

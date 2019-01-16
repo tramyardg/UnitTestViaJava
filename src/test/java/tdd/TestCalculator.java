@@ -27,7 +27,7 @@ public class TestCalculator {
 	try {
 	    assertEquals(2.0, calculator.average(), TOLERANCE);
 	} catch (EmptyListException e) {
-	    e.printStackTrace();
+	    log.warn("error {}", e);
 	}
     }
 

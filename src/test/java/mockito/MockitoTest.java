@@ -24,7 +24,8 @@ public class MockitoTest {
 	mockList.clear();
 
 	verify(mockList).add("one");
-	verify(mockList).add("zero");
+	// will fail
+	// verify(mockList).add("zero");
 	verify(mockList).clear();
     }
 

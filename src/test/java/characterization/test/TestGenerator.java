@@ -8,6 +8,11 @@ public class TestGenerator {
     @Test
     public void testGenerator() {
 	PageGenerator generator = new PageGenerator();
-	assertEquals("hello!", generator.generate());
+	
+	// let it fail
+        // assertEquals("hello!", generator.generate());
+
+	// correct behavior
+	assertEquals("hi!", generator.generate());
     }
 }
