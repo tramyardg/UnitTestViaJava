@@ -1,6 +1,8 @@
 package characterization.test;
 
+import java.util.Iterator;
 import java.util.Stack;
+import java.util.Vector;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -19,22 +21,28 @@ public class TestStack {
 	Stack<Integer> stack = new Stack<Integer>();
 	stack.push(1);
 	stack.push(2);
-	log.info("stack peek {}", stack.peek());
-	log.info("stack {}", stack.toString());
 	// stack [1, 2]
-	log.info("peek stack {}", stack.peek());
+	log.info("stack {}", stack.toString());
 	// peek stack 2
-	Integer expectedVal = 1;
+	log.info("peek stack {}", stack.peek());
+	
+	/* expected behavior but this will fail
+	 * failure trace: expected: <2> but was: <1>
+	int expectedVal = 2;
 	for (Integer stackElem : stack) {
 	    log.info("stack elem {}", stackElem);
-	    assertEquals(expectedVal, stackElem, 0.1);
-	    stackElem++;
+	    assertEquals(expectedVal, stackElem.intValue());
+	    expectedVal--;
+	}
+	*/
+	
+	int expectedVal = 1;
+	for (Integer stackElem : stack) {
+	    log.info("stack elem {}", stackElem);
+	    assertEquals(expectedVal, stackElem.intValue());
+	    expectedVal++;
 	}
 	assertFalse(stack.isEmpty());
-	// [main] INFO characterization.test.TestStack - stack [1, 2]
-	// [main] INFO characterization.test.TestStack - peek stack 2
-	// [main] INFO characterization.test.TestStack - stack elem 1
-	// [main] INFO characterization.test.TestStack - stack elem 2
     }
 
     @Test
@@ -50,5 +58,17 @@ public class TestStack {
 	// [main] INFO characterization.test.TestStack - pop 2
 	// [main] INFO characterization.test.TestStack - pop 1
 	// [main] INFO characterization.test.TestStack - pop 1
+	
+	// will fail (NullPointerException)
+	// log.info("peek {}", mockStack.peek().intValue());
+    }
+    
+    @Test
+    public void testStackIteratorType() {
+	Stack<Integer> stack = new Stack<Integer>();
+	Iterator it = stack.iterator();
+	log.info("stack iterator type {}", it.getClass().getName());
+	// [main] INFO characterization.test.TestStack - stack iterator type java.util.Vector$Itr
+	assertEquals(it.getClass(), (new Vector()).iterator().getClass());
     }
 }

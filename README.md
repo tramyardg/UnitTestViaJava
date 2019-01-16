@@ -72,7 +72,7 @@ You want to see the code behavior, so you make a failing test which tells you th
 5. Repeat
 
 ## Java Stack Iterator Question
-Recall that the _iterator_ for the Stack class for Java is incorrect. Write a unit test that would characterize the actual behavior of the Java Stack's iterator.
+Recall that the _iterator_ for the Stack class for Java is incorrect. Write a unit test that would characterize the actual behavior of the Java Stack's iterator. See [test](https://github.com/tramyardg/UnitTestViaJava/blob/master/src/test/java/characterization/test/TestStack.java) for full details.
 
 ```java
 @Test
@@ -80,19 +80,22 @@ public void testStack() {
   Stack<Integer> stack = new Stack<Integer>();
   stack.push(1);
   stack.push(2);
-  Integer expectedVal = 1;
+  int expectedVal = 1;
   for (Integer stackElem : stack) {
+    // prints like a queue: 1, 2 (iterator of the stack behaves like a queue)
     log.info("stack elem {}", stackElem);
-    assertEquals(expectedVal, stackElem, 0.1);
-    stackElem++;
+    assertEquals(expectedVal, stackElem.intValue());
+    expectedVal++;
   }
+  // stack is not empty because we didn't pop
   assertFalse(stack.isEmpty());
 }
-[main] INFO characterization.test.TestStack - stack [1, 2]
-[main] INFO characterization.test.TestStack - peek stack 2
-[main] INFO characterization.test.TestStack - stack elem 1
-[main] INFO characterization.test.TestStack - stack elem 2
+// [main] INFO characterization.test.TestStack - stack [1, 2]
+// [main] INFO characterization.test.TestStack - peek stack 2
+// [main] INFO characterization.test.TestStack - stack elem 1
+// [main] INFO characterization.test.TestStack - stack elem 2
 ```
+
 ### What is the output of the following code?
 
 ```java
