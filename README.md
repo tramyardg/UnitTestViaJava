@@ -34,6 +34,7 @@
   - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
 - __flaky test__ is a non-deterministic test.
 - __hidden dependency__: the constructor in the class under test uses some resources that we can't access in our test harness.
+- __inversion of control__ is a generic term meaning rather than having the application call the methods in a framework, the framework calls implementations provided by the application.
 
 ## Source Code
 |src|Main |Test |
@@ -380,6 +381,7 @@ class Car{
 ```
 
 **After using dependency injection**
+
 Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
 ```java
 class Car{
