@@ -1,5 +1,12 @@
 ![mockito](https://user-images.githubusercontent.com/5623994/51096961-83783980-178e-11e9-9966-e3f0b5ddc390.png)
 
+### Definition and Syntax
+- __verify__: verifies if method was called
+```java
+verify(object).method(arg(s));
+verify(object).method();
+```
+
 ### Verifying some behavior
 The `verify(...).method()` or `verify(...).method()` verifies that the method was called.
 ```java

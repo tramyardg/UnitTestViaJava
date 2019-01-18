@@ -22,6 +22,7 @@ In the `scan` method, the code calls the `showLine` method on the `display` vari
 ```java
 public class SaleTest extends TestCase {
   public void testDisplayAnItem() {
+    // not mockDisplay
     FakeDisplay display = new FakeDisplay();
     Sale sale = new Sale(display);
     sale.scan("Milk $3.99");

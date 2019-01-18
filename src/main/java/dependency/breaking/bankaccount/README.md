@@ -16,6 +16,9 @@ IPad ipad = mock(IPad.class);
 BankAccount account = new BankAccount(ipad);
 account.withdraw(200.0);
 verify(ipad).displayLine(200.0);
+// syntax:
+// verify(object).method(args);
+// method can have no arguments
 ```
 
 **Which design pattern are we using?**

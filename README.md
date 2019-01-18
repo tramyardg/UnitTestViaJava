@@ -26,15 +26,14 @@
 - __test harness__ is a piece of software that enables unit testing.
 - __fake object__ is an object that impersonates a collaborator of a class during testing.
 - __mock object__ is a fake object that asserts conditions internally.
-- __mockito mocks objects using__: reflection and a proxy object.
-- __two characteristics of unit test__: test runs fasts and test help localize problems.
+- __mockito mocks objects using__: **reflection** and a **proxy object**.
+- __two characteristics of unit test__: **test runs fasts** and **test help localize problems**.
 - __characterization test__ is a test written to document the current behavior of a piece of code. The tests document the actual behavior of the system.
-- There are two reasons to break dependencies: _sensing_ and _separation_
-  - __sensing__: we break dependencies to _sense_ when we can't access values our code computes.
-  - __separation__: we break dependencies to _separate_ when we can't even get a piece of code into a test harness to run.
+- There are two reasons to break dependencies:
+  - __sensing__: we break dependencies to sense when _we can't access values_ our code computes.
+  - __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
 - __flaky test__ is a non-deterministic test.
-- __hidden dependency__: the constructor in the class under test uses some resources that we can't access in our test harness.
-- __inversion of control__ is a generic term meaning rather than having the application call the methods in a framework, the framework calls implementations provided by the application.
+- __hidden dependency__: _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
 
 ## Source Code
 |src|Main |Test |
@@ -43,7 +42,6 @@
 |Characterization test|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/characterization/test)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/characterization/test)|
 |Dependency breaking|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/dependency/breaking)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/dependency/breaking)|
 |Mockito|---|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/mockito)|
-
 
 ## TDD Algorithm
 1. Write a failing test case.
@@ -381,7 +379,6 @@ class Car{
 ```
 
 **After using dependency injection**
-
 Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
 ```java
 class Car{
