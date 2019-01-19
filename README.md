@@ -2,6 +2,7 @@
 ## Table of Contents
 - [Glossary](#glossary)
 - [Source Code](#source-code)
+- [UML Class Diagram](#uml-class-diagram)
 - [TDD Algorithm](#tdd-algorithm)
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)
@@ -42,6 +43,10 @@
 |Characterization test|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/characterization/test)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/characterization/test)|
 |Dependency breaking|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/dependency/breaking)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/dependency/breaking)|
 |Mockito|---|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/mockito)|
+
+## UML Class Diagram
+![uml_class_diagram](https://user-images.githubusercontent.com/5623994/51428593-87afb700-1bd3-11e9-9d81-57fdf0f460ee.png)
+
 
 ## TDD Algorithm
 1. Write a failing test case.
@@ -122,7 +127,7 @@ The __goal__ is find the first commit that fails a test and this is the procedur
 **Example 1**
 
 Git bisect on the following sequence of commits. You get `fail/bad`,
-`pass/good`, `fail/bad`, which is the culprint of commit?
+`pass/good`, `fail/bad`, which is the culprit of commit?
 - 1----2----3----4----[5]----6----7----8----9
 - fail: 1----2----[3]----4----5
 - pass: 4----5
@@ -375,7 +380,7 @@ Dependency injection is basically providing the objects that an object needs (it
 **Without dependency injection**
 
 ```java
-class Car{
+class Car {
   private Wheel wh = new NepaliRubberWheel();
   private Battery bt = new ExcideBattery();
   ...
@@ -385,7 +390,7 @@ class Car{
 **After using dependency injection**
 Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
 ```java
-class Car{
+class Car {
   private Wheel wh = [Inject an Instance of Wheel (dependency of car) at runtime]
   private Battery bt = [Inject an Instance of Battery (dependency of car) at runtime]
   Car(Wheel wh,Battery bt) {
