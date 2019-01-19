@@ -115,20 +115,24 @@ You could try to check out each commit, build it, check if the regression is pre
 
 The __goal__ is find the first commit that fails a test and this is the procedure for finding that commit:
 - split the suspect commits in half
-- if test fails, then bug is in the _left half_
-- if test passes, then bug is in the _right half_
+- if test fails, then bug is in the __left half__
+- if test passes, then bug is in the __right half__
 - repeat
 
 **Example 1**
 
 Git bisect on the following sequence of commits. You get `fail/bad`,
 `pass/good`, `fail/bad`, which is the culprint of commit?
-- 1----2----3----4----5----6----7----8----9
+- 1----2----3----4----[5]----6----7----8----9
+- fail: 1----2----[3]----4----5
+- pass: 4----5
+- fail: 4
 
 Answer: 4
 
 **Example 2**
 ![image](https://user-images.githubusercontent.com/5623994/51081806-611ae900-16c6-11e9-9881-98bfc6f795ab.png)
+
 
 ## Parameterize Constructor
 If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
