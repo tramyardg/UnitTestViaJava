@@ -18,7 +18,9 @@
 - [Irritating Global Dependency](#irritating-global-dependency)
   - Singleton pattern
   - Reset singleton instance for testing
-- [Dependency Injection](#dependency-injection)  
+- [Dependency Injection](#dependency-injection)
+- [Consistency Checking](#consistency-checking)
+- [Feature Toggles](#feature-toggles)
   
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -140,7 +142,7 @@ Answer: 4
 
 
 ## Parameterize Constructor
-If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
+Solves the problem of hidden dependencies in constructor, so we can inject dependencies and be able to test. If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
 
 ### Mail checker example
 We start with this:
@@ -227,7 +229,7 @@ public void test() {
 }
 ```
 
-### Flaky Test
+## Flaky Test
 A flaky test is a non-deterministic test.
 - Test should fail when there is a problem and pass when there is no problem
 - Flaky test can pass and fail on the same build!
@@ -239,14 +241,14 @@ A flaky test is a non-deterministic test.
   - asynchronous calls
 - Accidental non-determinism: old and out-of-date tests introduce flakiness
 
-### Construction Blob
+## Construction Blob
 The case of construction blob
 - The constructor creates many objects.
 - We could parameterize constructors but the parameter list would become massive.
 - We can supersede instance variable.
 
-### Supersede Instance Variable
-To _Supersede Instance Variable_, follow these steps:
+## Supersede Instance Variable
+Is a solution for construction blob. To _Supersede Instance Variable_, follow these steps:
 1. Identify the instance variable that you want to supersede.
 2. Create a method named `supersedeXXX`, where `XXX` is the named of the variable you want to supersede.
 3. In the method, write whatever code you need to, so that you destroy the previous instance of the variable and set it to the new value. If the variable is a reference, verify that there are not any other references in the class to the object it points to. If there are you might have an additional work to do in superseding method to make sure that replacing the object is safe and has the right effect.
@@ -320,11 +322,12 @@ public void testSupersedeCursor() {
 }
 ```
 
-### Irritating Global Dependency
+## Irritating Global Dependency
 - In Java, the singleton pattern is one of the mechanisms people use to make global variables.
 - The whole idea of the singleton pattern is to make it impossible to create more than one instance of a singleton in an application.
 - That might be fine in production code, but, it is particularly hard to fake and when testing, each test in a suite of tests should be a mini-application, in a way: It should be totally isolated from the other tests.
 
+### Solution 1: static setter for instance variable
 So, to run code containing singletons in a test harness, we have to relax the singleton property. Here's how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
 
 Applying the first step, the singleton class `PermitRepository` becomes:
@@ -358,6 +361,7 @@ public void setUp() {
 }
 ```
 
+### Solution 2: reset the singleton
  Introducing static setter is not the only way of handling this situation. Another approach is to add a `resetForTesting()` method to the singleton that looks like this:
 
 ```java
@@ -375,6 +379,7 @@ public class PermitRepository {
 Dependency injection is basically providing the objects that an object needs (its dependencies) instead of having it construct them itself. It's a very useful technique for testing, since it allows dependencies to be mocked or stubbed out.
 - means giving an object its instance variables
 - all parameters to be passed in through the constructor
+- refactor using parameterize constructor
 - [stackoverflow](https://stackoverflow.com/questions/130794/what-is-dependency-injection)
 
 **Without dependency injection**
@@ -403,3 +408,23 @@ class Car {
   }
 }
 ```
+
+## Feature Toggles
+[Reading](https://users.encs.concordia.ca/~pcr/paper/Rahman2016MSR.pdf)
+
+### Three Types of Toggles
+There are three types of toggles: **development**, **long-term business**, and **release toggles**. Although release toggles are shorter lived than the other types of toggles, 53% still exist after 10 releases indicating that many linger as technical debt.
+
+### Advantages of Toggles
+
+#### Reconciling Rapid Release and Longterm Feature Development:
+Therefore, many major companies doing rapid releases prefer to work from a single master branch (trunk) in their version control system and use feature toggles instead of feature branches to isolate feature development. 
+
+#### Flexible Feature Roll-out
+In particular, feature toggles provide the flexibility to gradually roll out features and do user “experiments” (A/B testing) on new features. For example, “Every day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impact” [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
+
+#### Enabling Fast Context Switches
+For example, if a developer working on a given feature in a dedicated branch gets a request to fix an urgent bug, she needs to switch to another branch, fix the bug and test it, then switch back to the original branch to continue feature development. Developers often mistake the branch they are in, leading to commits to the wrong branch. According to Ho, toggling requires less effort than switching branches, hence it reduces the potential of unwanted check-ins and accompanying broken builds.
+
+#### Features are designed to be toggleable
+For example, the on-call developers at Facebook responsible for monitoring how new features behave in production (DevOps) need to be able to disable malfunctioning features within seconds to avoid affecting millions of users.
