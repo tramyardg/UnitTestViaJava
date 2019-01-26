@@ -1,6 +1,6 @@
 ![mockito](https://user-images.githubusercontent.com/5623994/51096961-83783980-178e-11e9-9966-e3f0b5ddc390.png)
 
-See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/Mockito.html)
+See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/Mockito.html).
 
 ### Definition and Syntax
 - __verify__: verifies if method was called
@@ -97,3 +97,35 @@ public void testSpy() {
   // verify(spy).add("one");
 }
 ```
+
+### Verification in InOrder
+```java
+@Test
+public void testInOrder() {
+  List<String> mock = mock(List.class);
+  mock.add("A");
+  mock.add("B");
+  
+  InOrder orderOfStrAdd = inOrder(mock);
+  // if the order is wrong it will fail, for example
+  // orderOfAddition.verify(mock).add("B");
+  // orderOfAddition.verify(mock).add("A"); 
+  orderOfStrAdd.verify(mock).add("A");
+  orderOfStrAdd.verify(mock).add("B");
+  
+  List<Integer> listIntA = mock(List.class);
+  List<Integer> listIntB = mock(List.class);
+  listIntA.add(1);
+  listIntB.add(1);
+  
+  //create inOrder object passing any mocks that need to be verified in order
+  InOrder orderOfIntAdd = inOrder(listIntA, listIntB);
+  // this one below also works, as long as `listIntA.add(1)` is done first
+  // InOrder orderOfIntAdd = inOrder(listIntB, listIntA);
+  
+  // see the order of listInt#: A then B
+  orderOfIntAdd.verify(listIntA).add(1);
+  orderOfIntAdd.verify(listIntB).add(1);
+}
+```
+	
