@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,8 +77,8 @@ public class MockitoTest {
     
     @Test
     public void testSpy() {
-	List list = new LinkedList();
-	List spy = spy(list);
+	List<String> list = new LinkedList<>();
+	List<String> spy = spy(list);
 	// optionally, you can stub out some methods:
 	when(spy.size()).thenReturn(100);
 	// using the spy calls *real* objects
@@ -91,6 +92,34 @@ public class MockitoTest {
 	verify(spy).add("2");
 	// will fail
 	// verify(spy).add("one");
+    }
+    
+    @Test
+    public void testInOrder() {
+	List<String> mock = mock(List.class);
+	mock.add("A");
+	mock.add("B");
+	
+	InOrder orderOfStrAdd = inOrder(mock);
+	// if the order is wrong it will fail, for example
+	// orderOfAddition.verify(mock).add("B");
+	// orderOfAddition.verify(mock).add("A"); 
+	orderOfStrAdd.verify(mock).add("A");
+	orderOfStrAdd.verify(mock).add("B");
+	
+	List<Integer> listIntA = mock(List.class);
+	List<Integer> listIntB = mock(List.class);
+	listIntA.add(1);
+	listIntB.add(1);
+	
+	//create inOrder object passing any mocks that need to be verified in order
+	InOrder orderOfIntAdd = inOrder(listIntA, listIntB);
+	// this one below also works, as long as `listIntA.add(1)` is done first
+	// InOrder orderOfIntAdd = inOrder(listIntB, listIntA);
+	
+	// see the order of listInt#: A then B
+	orderOfIntAdd.verify(listIntA).add(1);
+	orderOfIntAdd.verify(listIntB).add(1);
     }
 
 }

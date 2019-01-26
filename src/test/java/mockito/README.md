@@ -1,5 +1,7 @@
 ![mockito](https://user-images.githubusercontent.com/5623994/51096961-83783980-178e-11e9-9966-e3f0b5ddc390.png)
 
+See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/Mockito.html)
+
 ### Definition and Syntax
 - __verify__: verifies if method was called
 ```java
@@ -8,7 +10,7 @@ verify(object).method();
 ```
 
 ### Verifying some behavior
-The `verify(...).method()` or `verify(...).method()` verifies that the method was called.
+The `verify(...).method()` verifies that the method was called.
 ```java
 @Test
 public void testVerify() {
@@ -18,6 +20,9 @@ public void testVerify() {
   mockList.clear();
   verify(mockList).add("one");
   // will fail -> verify(mockList).add("zero");
+  // since "zero" is not added in the list
+  
+  // pass since clear was called
   verify(mockList).clear();
 }
 ```
@@ -36,6 +41,8 @@ Mocking concrete classes and/or interfaces by `when(...).thenReturn(...)` and/or
   
   Iterator<String> i = mock(Iterator.class);
   // thenReturn(...) chaining
+  // when i.next() is called the first time "Mockito" is printed
+  // when i.next() is called the second time "rocks" is printed
   when(i.next()).thenReturn("Mockito").thenReturn("rocks");
   String result = i.next() + " " + i.next();
   log.info("mockito rocks? {}", result);
@@ -70,12 +77,13 @@ public void testReturnValue() {
 @Test
 public void testSpy() {
   List list = new LinkedList();
-  List spy = spy(list);
+  // copies list signature
+  List spy = spy(list); 
   
   // optionally, you can stub out some methods:
   when(spy.size()).thenReturn(100);
   
-  // using the spy calls *real* objects
+  // using the spy calls *real* objects, in this case it spies list
   spy.add("1");
   spy.add("2");
   
