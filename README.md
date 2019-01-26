@@ -35,6 +35,7 @@
   - __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
 - __flaky test__ is a non-deterministic test.
 - __hidden dependency__: _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
+- __inversion of control__: use inversion of control to allow the framework to specify the dependencies
 
 ## Source Code
 |src|Main |Test |
