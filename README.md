@@ -3,6 +3,7 @@
 - [Glossary](#glossary)
 - [Source Code](#source-code)
 - [UML Class Diagram](#uml-class-diagram)
+- [Adapter Pattern](#adapter-pattern)
 - [TDD Algorithm](#tdd-algorithm)
 - [Characterization Test Algorithm](#characterization-test-algorithm)
 - [Java Stack Iterator Question](#java-stack-iterator-question)
@@ -19,7 +20,6 @@
   - Singleton pattern
   - Reset singleton instance for testing
 - [Dependency Injection](#dependency-injection)
-- [Consistency Checking](#consistency-checking)
 - [Feature Toggles](#feature-toggles)
   
 ## Glossary
@@ -49,6 +49,9 @@
 
 ## UML Class Diagram
 ![uml_class_diagram](https://user-images.githubusercontent.com/5623994/51428593-87afb700-1bd3-11e9-9d81-57fdf0f460ee.png)
+
+## Adapter Pattern
+![adapter_pattern](https://user-images.githubusercontent.com/5623994/51864628-470e1700-2312-11e9-8098-126c231c11b2.png)
 
 
 ## TDD Algorithm
@@ -422,7 +425,7 @@ There are three types of toggles: **development**, **long-term business**, and *
 Therefore, many major companies doing rapid releases prefer to work from a single master branch (trunk) in their version control system and use feature toggles instead of feature branches to isolate feature development. 
 
 #### Flexible Feature Roll-out
-In particular, feature toggles provide the flexibility to gradually roll out features and do user “experiments” (A/B testing) on new features. For example, “Every day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impact” [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
+In particular, feature toggles provide the flexibility to gradually roll out features and do user â€œexperimentsâ€� (A/B testing) on new features. For example, â€œEvery day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impactâ€� [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
 
 #### Enabling Fast Context Switches
 For example, if a developer working on a given feature in a dedicated branch gets a request to fix an urgent bug, she needs to switch to another branch, fix the bug and test it, then switch back to the original branch to continue feature development. Developers often mistake the branch they are in, leading to commits to the wrong branch. According to Ho, toggling requires less effort than switching branches, hence it reduces the potential of unwanted check-ins and accompanying broken builds.

@@ -3,10 +3,12 @@
 See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/Mockito.html).
 
 ### Creating a mock
-- A mock has the same method calls as the normal object
-- It records how other objects interact with it
-- There is a mock instance of the object but no real object instance
-- Do not mock `Sale.java` class (class under test)
+- A mock has the same method calls as the normal object.
+- Mocks can be on interfaces or classes.
+- It records how other objects interact with it.
+- There is a mock instance of the object but no real object instance.
+- Do not mock `Sale.java` class (class under test).
+- Use when you don't have fake classes (you no longer need fake classes).
 
 ### Verify
 - Once created, a mock will remember all interactions. The you can selectively verify whatever interactions you are interested in.

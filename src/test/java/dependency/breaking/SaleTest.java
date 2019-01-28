@@ -1,6 +1,8 @@
 package dependency.breaking;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.mockito.Mockito.*;
 import dependency.breaking.pos.FakeDisplay;
@@ -9,8 +11,19 @@ import dependency.breaking.pos.HashStorage;
 import dependency.breaking.pos.IDisplay;
 import dependency.breaking.pos.Sale;
 import junit.framework.TestCase;
+import mockito.MockitoTest;
 
 public class SaleTest extends TestCase {
+    
+    HashStorage storage;
+    IDisplay display;
+    
+    public SaleTest(IDisplay display, HashStorage storage) {
+	this.display = display;
+	this.storage = storage;
+    }
+    
+    private final Logger log = LoggerFactory.getLogger(MockitoTest.class);
     
     @Test
     public void testDisplayAnItem() {
@@ -54,4 +67,15 @@ public class SaleTest extends TestCase {
 	sale.scan("141");
 	assertEquals("cigars, 5.99", display.getLastLine());
     }
+    
+    @Test
+    public void testScan() {
+	IDisplay display = mock(IDisplay.class);
+	HashStorage storage = mock(HashStorage.class);
+	when(storage.barcode("1A")).thenReturn("milk");
+	
+	Sale sale = new Sale(display);
+	log.info("{}", storage.barcode("1A"));
+    }
+    
 }
