@@ -2,6 +2,24 @@
 
 See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/Mockito.html).
 
+### Creating a mock
+- A mock has the same method calls as the normal object
+- It records how other objects interact with it
+- There is a mock instance of the object but no real object instance
+- Do not mock `Sale.java` class (class under test)
+
+### Verify
+- Once created, a mock will remember all interactions. The you can selectively verify whatever interactions you are interested in.
+
+### Verify InOrder
+- Want to ensure that the interactions happened in a particular order
+- InOrder for the display
+```java
+InOrder inOrder = inOrder(display);
+inOrder.verify(display).showLine("1A");
+inOrder.verify(display).showLine("Milk, 3.99");
+```
+
 ### Definition and Syntax
 - __verify__: verifies if method was called
 ```java

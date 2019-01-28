@@ -2,9 +2,11 @@ package dependency.breaking;
 
 import org.junit.Test;
 
+import static org.mockito.Mockito.*;
 import dependency.breaking.pos.FakeDisplay;
 import dependency.breaking.pos.FakeStorage;
 import dependency.breaking.pos.HashStorage;
+import dependency.breaking.pos.IDisplay;
 import dependency.breaking.pos.Sale;
 import junit.framework.TestCase;
 
@@ -16,6 +18,15 @@ public class SaleTest extends TestCase {
 	Sale sale = new Sale(display);
 	sale.scan("Milk $3.99");
 	assertEquals("Milk $3.99", display.getLastLine());
+    }
+    
+    @Test
+    public void testVerify() {
+	IDisplay display = mock(IDisplay.class);
+	// do not mock Sale class
+	Sale sale = new Sale(display);
+	sale.scan("Milk $3.99");
+	verify(display).showLine("Milk $3.99");	
     }
     
     @Test

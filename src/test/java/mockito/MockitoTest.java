@@ -3,6 +3,7 @@ package mockito;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -122,4 +123,12 @@ public class MockitoTest {
 	orderOfIntAdd.verify(listIntB).add(1);
     }
 
+    @Test
+    public void testMultipleCalls() {
+	List<String> mock = new ArrayList<String>();
+	mock.add("asd");
+	when(mock.size()).thenThrow(new RuntimeException()).thenReturn(1);
+	assertEquals("hello!", mock.get(0));
+    }
+    
 }
