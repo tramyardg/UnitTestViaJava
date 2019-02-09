@@ -22,24 +22,23 @@
 - [Dependency Injection](#dependency-injection)
 - [Feature Toggles](#feature-toggles)
 - [Java Reflection](#java-reflection)
+- [Proxy](#proxy)
   
 ## Glossary
-- __legacy code__ is simply code without tests.
-- __unit test__ is a test that runs in less than 1/10th of a second and is small enough to help you localize problems when it fails.
-- __test-driven development__ is a development process that consists of writing failing test cases and satisfying them one at a time. As you do this, you refactor to keep the code as simple as possible. Code developed using TDD has test coverage, by default.
-- __test harness__ is a piece of software that enables unit testing.
-- __fake object__ is an object that impersonates a collaborator of a class during testing.
-- __mock object__ is a fake object that asserts conditions internally.
-- __mockito mocks objects using__: **reflection** and a **proxy object**.
-- __two characteristics of unit test__: **test runs fasts** and **test help localize problems**.
 - __characterization test__ is a test written to document the current behavior of a piece of code. The tests document the actual behavior of the system.
-- There are two reasons to break dependencies:
-  - __sensing__: we break dependencies to sense when _we can't access values_ our code computes.
-  - __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
+- __fake object__ is an object that impersonates a collaborator of a class during testing.
 - __flaky test__ is a non-deterministic test.
 - __hidden dependency__: _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
 - __inversion of control__: use inversion of control to allow the framework to specify the dependencies
-- __relecttion__: is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
+- __legacy code__ is simply code without tests.
+- __mock object__ is a fake object that asserts conditions internally.
+- __mockito mocks objects using__: **reflection** and a **proxy object**.
+- __relection__ is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
+- __sensing__: we break dependencies to sense when _we can't access values_ our code computes.
+- __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
+- __test harness__ is a piece of software that enables unit testing.
+- __test-driven development__ is a development process that consists of writing failing test cases and satisfying them one at a time. As you do this, you refactor to keep the code as simple as possible. Code developed using TDD has test coverage, by default.
+- __unit test__ is a **test that runs in less than 1/10th of a second** and is small enough to **help you localize problems** when it fails.
 
 ## Source Code
 |src|Main |Test |
@@ -442,3 +441,9 @@ for (Method method: methods) {
 	System.out.println("method = " + method.getName());
 }
 ```
+
+## Proxy 
+You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
+1. The ClassLoader that is to "load" the dynamic proxy class.
+2. An array of interfaces to implement.
+3. An InvocationHandler to forward all methods calls on the proxy to.
