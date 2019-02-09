@@ -21,6 +21,7 @@
   - Reset singleton instance for testing
 - [Dependency Injection](#dependency-injection)
 - [Feature Toggles](#feature-toggles)
+- [Java Reflection](#java-reflection)
   
 ## Glossary
 - __legacy code__ is simply code without tests.
@@ -38,6 +39,7 @@
 - __flaky test__ is a non-deterministic test.
 - __hidden dependency__: _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
 - __inversion of control__: use inversion of control to allow the framework to specify the dependencies
+- __relecttion__: is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
 
 ## Source Code
 |src|Main |Test |
@@ -432,3 +434,11 @@ For example, if a developer working on a given feature in a dedicated branch get
 
 #### Features are designed to be toggleable
 For example, the on-call developers at Facebook responsible for monitoring how new features behave in production (DevOps) need to be able to disable malfunctioning features within seconds to avoid affecting millions of users.
+
+## Java Reflection
+```java
+Method[] methods = Storage.class.getMethods();
+for (Method method: methods) {
+	System.out.println("method = " + method.getName());
+}
+```

@@ -10,6 +10,19 @@ See [docs here](http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/moc
 - Do not mock `Sale.java` class (class under test).
 - Use when you don't have fake classes (you no longer need fake classes).
 
+### Basics
+**Mocking external dependencies**
+![image](https://user-images.githubusercontent.com/5623994/52521689-e1daef80-2c48-11e9-8c8c-fd9233dc5a4b.png)
+Note: `EmailSender` is a class under test, do not mock!
+
+**Stubbing**
+![image](https://user-images.githubusercontent.com/5623994/52521698-f7e8b000-2c48-11e9-92fd-b99f9ec893f8.png)
+
+**Additional tricks:**
+- __doThrow__: to test a failing dependency, e.g. network dependency
+- __Spying__: partially stubbing a dependency instead of completely
+- __ArgumentCaptor__: ensure that a method was called with a range of possible acceptable arguments
+
 ### Verify
 - Once created, a mock will remember all interactions. The you can selectively verify whatever interactions you are interested in.
 
