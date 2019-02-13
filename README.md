@@ -23,6 +23,7 @@
 - [Feature Toggles](#feature-toggles)
 - [Java Reflection](#java-reflection)
 - [Proxy](#proxy)
+- [Guice Framework](#dependency-injection-with-guice)
   
 ## Glossary
 - __characterization test__ is a test written to document the current behavior of a piece of code. The tests document the actual behavior of the system.
@@ -442,7 +443,9 @@ for (Method method: methods) {
 }
 ```
 
-## Proxy 
+## Proxy
+### Proxy Design Pattern
+
 You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
 1. The ClassLoader that is to "load" the dynamic proxy class.
 2. An array of interfaces to implement.
@@ -462,6 +465,7 @@ IDisplay display = (IDisplay) Proxy.newProxyInstance(
             new Class[] {IDisplay.class},
             mockHandler);            
 ```
+See the test [here](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy/TestProxy.java)
 
 ## Dependency Injection with Guice
 Class under test
@@ -517,8 +521,9 @@ public void testBilling() {
 ```
 Review
 1. Use inject annotation in class under test
-2. Create a module and use bindings
+2. Create a module and use bindings to bind the parameters of the class under test's constructors 
 3a. Create an `Injector` instance.
 3b. Initialize the injector with `Guice.createInjector(moduleName)` which takes module as parameter
-4. You can now create a new instance of the class under test.  
+4. You can now create a new instance of the class under test and initialize it as
+`injector.getInstance(ClassUnderTest.class)`  
 
