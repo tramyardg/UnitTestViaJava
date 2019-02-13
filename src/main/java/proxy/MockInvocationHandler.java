@@ -2,20 +2,25 @@ package proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class MockInvocationHandler implements InvocationHandler {
 
+    private HashMap<String, String> verifyMap = new HashMap<>();
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println(proxy.getClass().toString());
-        System.out.println(method.getName());
+        // System.out.println(method.getName());
         for (Object obj : args) {
-            System.out.println(obj.toString());
+            verifyMap.put(method.getName(), obj.toString());
         }
         return null;
     }
 
     public void verify(String method, String parameter) {
-
+        assertEquals(verifyMap.get(method), parameter);
     }
 }

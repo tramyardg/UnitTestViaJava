@@ -28,7 +28,6 @@ public class TestProxy {
     public void testDisplayProxy() {
         HashStorage hashStorage = mock(HashStorage.class);
         when(hashStorage.barcode("1A")).thenReturn("Milk, 3.99");
-        Interac interac = mock(Interac.class);
 
         MockInvocationHandler mockHandler = new MockInvocationHandler();
         IDisplay display = (IDisplay) Proxy.newProxyInstance(
@@ -36,13 +35,12 @@ public class TestProxy {
                 new Class[] {IDisplay.class},
                 mockHandler);
 
-        Sale sale = new Sale(display, hashStorage, interac);
+        Sale sale = new Sale(display, hashStorage);
         sale.scan("1A");
 
         mockHandler.verify("showLine", "Milk, 3.99");
 
         verify(hashStorage).barcode("1A");
-
     }
 
 }
