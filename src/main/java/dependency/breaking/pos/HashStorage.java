@@ -11,13 +11,13 @@ public class HashStorage implements IStorage {
     private HashMap<String, String> map = new HashMap<>();
 
     public void put(String barcode, String item) {
-	log.info("storing item {} with barcode {}", item, barcode);
-	map.put(barcode, item);
+        log.info("storing item {} with barcode {}", item, barcode);
+        map.put(barcode, item);
     }
 
     @Override
     public String barcode(String barcode) {
-	return map.get(barcode);
+        return map.get(barcode);
     }
 
 }

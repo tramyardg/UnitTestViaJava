@@ -25,6 +25,8 @@ dependencies {
 
     compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.2'
 
+    compile group: 'com.google.inject', name: 'guice', version: '4.+'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
