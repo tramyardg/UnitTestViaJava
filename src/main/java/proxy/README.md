@@ -19,13 +19,9 @@ You create dynamic proxies using the `Proxy.newProxyInstance()` method. The `new
 - Checking locks on object etc
 
 ### `InvocationHandler`
-```
-public interface InvocationHandler {
-  Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
-}
-```
+Imported from `import java.lang.reflect.InvocationHandler;`
 
-### `MyInvocationHandler`
+### `MyInvocationHandler` implements `InvocationHandler`
 ```
 public class MyInvocationHandler implements InvocationHandler {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -41,7 +37,7 @@ public class MyInvocationHandler implements InvocationHandler {
 
 For example:
 ```
-InvocationHandler handler = new MyInvocationHandler();
+MyInvocationHandler handler = new MyInvocationHandler();
 MyInterface proxy = (MyInterface) Proxy.newProxyInstance(
 	MyInterface.class.getClassLoader(),
 	new Class[] { MyInterface.class },

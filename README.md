@@ -447,3 +447,78 @@ You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The new
 1. The ClassLoader that is to "load" the dynamic proxy class.
 2. An array of interfaces to implement.
 3. An InvocationHandler to forward all methods calls on the proxy to.
+For example,
+```
+MyInvocationHandler handler = new MyInvocationHandler();
+MyInterface interface = (MyInterface) Proxy.newProxyInstance(
+    MyInterface.class.getClassLoader(),
+    new Class[] {MyInterface.class},
+    handler
+);
+// real objects
+MockInvocationHandler mockHandler = new MockInvocationHandler();
+IDisplay display = (IDisplay) Proxy.newProxyInstance(
+            IDisplay.class.getClassLoader(),
+            new Class[] {IDisplay.class},
+            mockHandler);            
+```
+
+## Dependency Injection with Guice
+Class under test
+```
+class BillingService {
+    private final CreditCardProcessor processor;
+    private final TransactionLog transactionLog;
+    
+    @Inject
+    BillingService(CreditCardProcessor processor, TransactionLog log) {
+        this.processor = processor;
+        this.transactionLog = log;
+    }
+    ...
+}
+
+```
+Guice uses _bindings_ to map types to their implementations.
+A _module_ is a collection of bindings specified using fluent, English-like method calls:
+```
+class BillingModule extends AbstractModule {
+    @Override
+    protected void configure() {
+     /*
+      * This tells Guice that whenever it sees a dependency on a TransactionLog,
+      * it should satisfy the dependency using a DatabaseTransactionLog.
+      */
+      bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+      
+      /*
+      * Similarly, this binding tells Guice that when CreditCardProcessor is used in
+      * a dependency, that should be satisfied with a PaypalCreditCardProcessor.
+      */
+      bind(CreditCardProcessor.class).to(PaypalCreditCardProcessor.class);
+    }
+}
+```
+Testing
+```
+@Test
+public void testBilling() {
+    /*
+     * 3.
+     * Guice.createInjector() takes your Modules, and returns a new Injector
+     * instance. Most applications will call this method exactly once, in their
+     * main() method.
+     */
+    Injector injector = Guice.createInjector(new BillingModule());
+
+    // 4.
+    BillingService billingService = injector.getInstance(BillingService.class);
+}
+```
+Review
+1. Use inject annotation in class under test
+2. Create a module and use bindings
+3a. Create an `Injector` instance.
+3b. Initialize the injector with `Guice.createInjector(moduleName)` which takes module as parameter
+4. You can now create a new instance of the class under test.  
+
