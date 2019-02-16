@@ -2,7 +2,7 @@
 <Configuration status="warn" name="Sale" packages="">
     <Appenders>
         <Console name="STDIO" target="SYSTEM_OUT">
-            <PatternLayout pattern="%msg - [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} %n"/>
+            <PatternLayout pattern="%msg - [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c %n"/>
         </Console>
         <File name="Analytics" fileName="logs/Analytics.log">
             <PatternLayout>

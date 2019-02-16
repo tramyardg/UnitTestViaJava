@@ -2,12 +2,13 @@ package proxy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.logging.Logger;
 
 import dependency.breaking.pos.HashStorage;
 import dependency.breaking.pos.IDisplay;
 import dependency.breaking.pos.Interac;
 import dependency.breaking.pos.Sale;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class TestProxy {
 
-    private final Logger logger = Logger.getLogger(TestProxy.class.getName());
+    private final Logger logger = LogManager.getLogger();
 
     @Test
     public void test() {

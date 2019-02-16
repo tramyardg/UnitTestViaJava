@@ -1,8 +1,8 @@
 package characterization.test;
 
-public class PageGenerator {
+class PageGenerator {
 
-    public String generate() {
+    String generate() {
         return "hi!";
     }
 

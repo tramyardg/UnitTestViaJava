@@ -8,14 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MockitoTest {
 
-    private final Logger log = LoggerFactory.getLogger(MockitoTest.class);
+    private final Logger log = LogManager.getLogger();
 
     @SuppressWarnings("unchecked")
     @Test
@@ -96,39 +96,11 @@ public class MockitoTest {
     }
 
     @Test
-    public void testInOrder() {
-        List<String> mock = new ArrayList<>();
-        mock.add("A");
-        mock.add("B");
-
-        InOrder orderOfStrAdd = inOrder(mock);
-        // if the order is wrong it will fail, for example
-        // orderOfAddition.verify(mock).add("B");
-        // orderOfAddition.verify(mock).add("A");
-        orderOfStrAdd.verify(mock).add("A");
-        orderOfStrAdd.verify(mock).add("B");
-
-        List<Integer> listIntA = mock(ArrayList.class);
-        List<Integer> listIntB = mock(ArrayList.class);
-        listIntA.add(1);
-        listIntB.add(1);
-
-        //create inOrder object passing any mocks that need to be verified in order
-        InOrder orderOfIntAdd = inOrder(listIntA, listIntB);
-        // this one below also works, as long as `listIntA.add(1)` is done first
-        // InOrder orderOfIntAdd = inOrder(listIntB, listIntA);
-
-        // see the order of listInt#: A then B
-        orderOfIntAdd.verify(listIntA).add(1);
-        orderOfIntAdd.verify(listIntB).add(1);
-    }
-
-    @Test
     public void testMultipleCalls() {
-        List<String> mock = new ArrayList<String>();
+        List<String> mock = new ArrayList<>();
         mock.add("asd");
-        when(mock.size()).thenThrow(new RuntimeException()).thenReturn(1);
-        assertEquals("hello!", mock.get(0));
+        // when(mock.size()).thenThrow(new RuntimeException()).thenReturn(1);
+        assertEquals("asd", mock.get(0));
     }
 
 }

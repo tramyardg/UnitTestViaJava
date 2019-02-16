@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.mockito.Mockito.*;
 
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertFalse;
 
 public class TestStack {
 
-    private final Logger log = LoggerFactory.getLogger(TestStack.class);
+    private final Logger log = LogManager.getLogger();
 
     @Test
     public void testStack() {

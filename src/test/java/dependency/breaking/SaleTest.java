@@ -1,8 +1,9 @@
 package dependency.breaking;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.mockito.Mockito.*;
 
@@ -11,27 +12,17 @@ import dependency.breaking.pos.FakeStorage;
 import dependency.breaking.pos.HashStorage;
 import dependency.breaking.pos.IDisplay;
 import dependency.breaking.pos.Sale;
-import junit.framework.TestCase;
-import mockito.MockitoTest;
 
-public class SaleTest extends TestCase {
+public class SaleTest {
 
-    HashStorage storage;
-    IDisplay display;
-
-    public SaleTest(IDisplay display, HashStorage storage) {
-        this.display = display;
-        this.storage = storage;
-    }
-
-    private final Logger log = LoggerFactory.getLogger(MockitoTest.class);
+    private final Logger log = LogManager.getLogger();
 
     @Test
     public void testDisplayAnItem() {
         FakeDisplay display = new FakeDisplay();
         Sale sale = new Sale(display);
         sale.scan("Milk $3.99");
-        assertEquals("Milk $3.99", display.getLastLine());
+        Assert.assertEquals("Milk $3.99", display.getLastLine());
     }
 
     @Test
@@ -50,7 +41,7 @@ public class SaleTest extends TestCase {
         Sale sale = new Sale(display, storage);
         sale.scan("Milk $3.99");
         System.out.println(display.getLastLine());
-        assertEquals("Milk $3.99", display.getLastLine());
+        Assert.assertEquals("Milk $3.99", display.getLastLine());
     }
 
     @Test
@@ -63,10 +54,10 @@ public class SaleTest extends TestCase {
 
         Sale sale = new Sale(display, storage);
         sale.scan("123");
-        assertEquals("gum, 1.99", display.getLastLine());
+        Assert.assertEquals("gum, 1.99", display.getLastLine());
 
         sale.scan("141");
-        assertEquals("cigars, 5.99", display.getLastLine());
+        Assert.assertEquals("cigars, 5.99", display.getLastLine());
     }
 
     @Test

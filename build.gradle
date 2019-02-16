@@ -23,8 +23,6 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:23.0'
 
-    compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.2'
-
     compile group: 'com.google.inject', name: 'guice', version: '4.+'
 
     // Use JUnit test framework

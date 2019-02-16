@@ -1,15 +1,14 @@
 package dependency.breaking.pos;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ArtR56Display implements IDisplay {
 
-    private final Logger log = LoggerFactory.getLogger(ArtR56Display.class);
-    
+    private final Logger log = LogManager.getLogger();
+
     @Override
     public void showLine(String line) {
-	log.info(line);
+        log.info(line);
     }
-
 }

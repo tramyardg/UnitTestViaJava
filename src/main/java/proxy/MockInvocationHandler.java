@@ -20,7 +20,7 @@ public class MockInvocationHandler implements InvocationHandler {
         return null;
     }
 
-    public void verify(String method, String parameter) {
+    void verify(String method, String parameter) {
         assertEquals(verifyMap.get(method), parameter);
     }
 }
