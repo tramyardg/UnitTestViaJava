@@ -2,3 +2,5 @@
 /.gradle/
 .settings
 .classpath
+/logs/
+/out/

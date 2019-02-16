@@ -394,80 +394,40 @@ Dependency injection is basically providing the objects that an object needs (it
 
 ```java
 class Car {
-  private Wheel wh = new NepaliRubberWheel();
-  private Battery bt = new ExcideBattery();
-  ...
+  private Wheel wh;
+  private Battery bt;
+  Car() {
+      // dependency is hidden in this constructor
+      // can't test
+      // can't inject dependencies or mocks
+      // violates the law of demeter by creating an instance of objects in the constructor
+      // solutions: parameterize the constructor or use Guice framework
+      wh = new NepaliRubberWheel();
+      bt = new ExcideBattery();
+  }
+  // ... more code
 }
 ```
 
 **After using dependency injection**
+
 Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
 ```java
 class Car {
-  private Wheel wh = [Inject an Instance of Wheel (dependency of car) at runtime]
-  private Battery bt = [Inject an Instance of Battery (dependency of car) at runtime]
-  Car(Wheel wh,Battery bt) {
+  private Wheel wh;   // [Inject an Instance of Wheel (dependency of car) at runtime]
+  private Battery bt; // [Inject an Instance of Battery (dependency of car) at runtime]
+  
+  Car(Wheel wh, Battery bt) {
       this.wh = wh;
       this.bt = bt;
   }
-  //Or we can have setters
+  
+  // Or we can have setters
   void setWheel(Wheel wh) {
       this.wh = wh;
   }
 }
 ```
-
-## Feature Toggles
-[Reading](https://users.encs.concordia.ca/~pcr/paper/Rahman2016MSR.pdf)
-
-### Three Types of Toggles
-There are three types of toggles: **development**, **long-term business**, and **release toggles**. Although release toggles are shorter lived than the other types of toggles, 53% still exist after 10 releases indicating that many linger as technical debt.
-
-### Advantages of Toggles
-
-#### Reconciling Rapid Release and Longterm Feature Development:
-Therefore, many major companies doing rapid releases prefer to work from a single master branch (trunk) in their version control system and use feature toggles instead of feature branches to isolate feature development. 
-
-#### Flexible Feature Roll-out
-In particular, feature toggles provide the flexibility to gradually roll out features and do user â€œexperimentsâ€� (A/B testing) on new features. For example, â€œEvery day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impactâ€� [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
-
-#### Enabling Fast Context Switches
-For example, if a developer working on a given feature in a dedicated branch gets a request to fix an urgent bug, she needs to switch to another branch, fix the bug and test it, then switch back to the original branch to continue feature development. Developers often mistake the branch they are in, leading to commits to the wrong branch. According to Ho, toggling requires less effort than switching branches, hence it reduces the potential of unwanted check-ins and accompanying broken builds.
-
-#### Features are designed to be toggleable
-For example, the on-call developers at Facebook responsible for monitoring how new features behave in production (DevOps) need to be able to disable malfunctioning features within seconds to avoid affecting millions of users.
-
-## Java Reflection
-```java
-Method[] methods = Storage.class.getMethods();
-for (Method method: methods) {
-	System.out.println("method = " + method.getName());
-}
-```
-
-## Proxy
-### Proxy Design Pattern
-
-You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
-1. The ClassLoader that is to "load" the dynamic proxy class.
-2. An array of interfaces to implement.
-3. An InvocationHandler to forward all methods calls on the proxy to.
-For example,
-```java
-MyInvocationHandler handler = new MyInvocationHandler();
-MyInterface interface = (MyInterface) Proxy.newProxyInstance(
-    MyInterface.class.getClassLoader(),
-    new Class[] {MyInterface.class},
-    handler
-);
-// real objects
-MockInvocationHandler mockHandler = new MockInvocationHandler();
-IDisplay display = (IDisplay) Proxy.newProxyInstance(
-            IDisplay.class.getClassLoader(),
-            new Class[] {IDisplay.class},
-            mockHandler);            
-```
-See the test [here](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy/TestProxy.java)
 
 ## Dependency Injection with Guice
 Class under test
@@ -475,13 +435,13 @@ Class under test
 class BillingService {
     private final CreditCardProcessor processor;
     private final TransactionLog transactionLog;
-    
+  
     @Inject
     BillingService(CreditCardProcessor processor, TransactionLog log) {
         this.processor = processor;
         this.transactionLog = log;
     }
-    ...
+    // ... more code
 }
 
 ```
@@ -527,5 +487,56 @@ Review
 3a. Create an `Injector` instance.
 3b. Initialize the injector with `Guice.createInjector(moduleName)` which takes module as parameter
 4. You can now create a new instance of the class under test and initialize it as
-`injector.getInstance(ClassUnderTest.class)`  
+`injector.getInstance(ClassUnderTest.class)`
 
+## Java Reflection
+```java
+Method[] methods = Storage.class.getMethods();
+for (Method method: methods) {
+	System.out.println("method = " + method.getName());
+}
+```
+
+## Proxy
+### Proxy Design Pattern
+
+You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
+1. The ClassLoader that is to "load" the dynamic proxy class.
+2. An array of interfaces to implement.
+3. An InvocationHandler to forward all methods calls on the proxy to.
+For example,
+```java
+MyInvocationHandler handler = new MyInvocationHandler();
+MyInterface interface = (MyInterface) Proxy.newProxyInstance(
+    MyInterface.class.getClassLoader(),
+    new Class[] {MyInterface.class},
+    handler
+);
+// real objects
+MockInvocationHandler mockHandler = new MockInvocationHandler();
+IDisplay display = (IDisplay) Proxy.newProxyInstance(
+            IDisplay.class.getClassLoader(),
+            new Class[] {IDisplay.class},
+            mockHandler);            
+```
+See the test [here](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy/TestProxy.java)
+
+## Feature Toggles
+[Reading](https://users.encs.concordia.ca/~pcr/paper/Rahman2016MSR.pdf)
+
+### Three Types of Toggles
+There are three types of toggles: **development**, **long-term business**, and **release toggles**. Although release toggles are shorter lived than the other types of toggles, 53% still exist after 10 releases indicating that many linger as technical debt.
+
+### Advantages of Toggles
+
+#### Reconciling Rapid Release and Longterm Feature Development:
+Therefore, many major companies doing rapid releases prefer to work from a single master branch (trunk) in their version control system and use feature toggles instead of feature branches to isolate feature development. 
+
+#### Flexible Feature Roll-out
+In particular, feature toggles provide the flexibility to gradually roll out features and do user â€œexperimentsâ€� (A/B testing) on new features. For example, â€œEvery day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impactâ€� [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
+
+#### Enabling Fast Context Switches
+For example, if a developer working on a given feature in a dedicated branch gets a request to fix an urgent bug, she needs to switch to another branch, fix the bug and test it, then switch back to the original branch to continue feature development. Developers often mistake the branch they are in, leading to commits to the wrong branch. According to Ho, toggling requires less effort than switching branches, hence it reduces the potential of unwanted check-ins and accompanying broken builds.
+
+#### Features are designed to be toggleable
+For example, the on-call developers at Facebook responsible for monitoring how new features behave in production (DevOps) need to be able to disable malfunctioning features within seconds to avoid affecting millions of users.
