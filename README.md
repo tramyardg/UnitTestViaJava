@@ -29,12 +29,12 @@
 - __characterization test__ is a test written to document the current behavior of a piece of code. The tests document the actual behavior of the system.
 - __fake object__ is an object that impersonates a collaborator of a class during testing.
 - __flaky test__ is a non-deterministic test.
-- __hidden dependency__: _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
+- __hidden dependency__: is a testing smell where _the constructor_ in the class under test _uses some resources_ that _we can't access_ in our test harness.
 - __inversion of control__: use inversion of control to allow the framework to specify the dependencies
 - __legacy code__ is simply code without tests.
 - __mock object__ is a fake object that asserts conditions internally.
 - __mockito mocks objects using__: **reflection** and a **proxy object**.
-- __relection__ is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
+- __reflection__ is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
 - __sensing__: we break dependencies to sense when _we can't access values_ our code computes.
 - __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
 - __test harness__ is a piece of software that enables unit testing.
@@ -148,7 +148,7 @@ Answer: 4
 
 
 ## Parameterize Constructor
-Solves the problem of hidden dependencies in constructor, so we can inject dependencies and be able to test. If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
+Solves the problem of _hidden dependencies_ in constructor, so we can inject dependencies and be able to test. If you are creating an object in a constructor, often the easiest way to replace it is to _externalize its creation_, create the object outside the class, and make clients pass it into the constructor as a parameter. Here are some example.
 
 ### Mail checker example
 We start with this:
@@ -277,7 +277,7 @@ public class Sale {
   }
   
   public void supersedeInteract(Interac interac) {
-    interac = interac;
+    this.interac = interac;
   }
 }
 ```
@@ -288,7 +288,7 @@ public void testSupersedeInterac() {
   Display mockDisplay = mock(Display.class);
   Storage mockStorage = mock(Storage.class);
   Interac mockInterac = mock(Interac.class);
-  // call to the original constructor (the one without the instance variable to supersede) 
+  // call to the original constructor (the one without the superseded variable) 
   // and pass in the mocked classes
   Sale sale = new Sale(mockDisplay, mockStorage);
   // supersede interac
@@ -341,27 +341,29 @@ Applying the first step, the singleton class `PermitRepository` becomes:
 ```java
 public class PermitRepository {
   private static PermitRepository instance = null;
+  
   private PermitRepository() {}
-  // introduce static setter
-  public static setTestingInstance(PermitRepository newInstance) {
-    instance = newInstance;
-  }
-  public static getInstance() {
+  
+  public static PermitRepository getInstance() {
     if (instance == null) {
       instance = new PermitRepository();
     }
     return instance;
+  }
+  
+  // introduce static setter
+  public static void setTestingInstance(PermitRepository newInstance) {
+    instance = newInstance;
   }
   ...
 }
 ```
 
 Now, we'd like to write code like this in our test setup.
-
 ```java
 @Before
 public void setUp() {
-  PermitRepository repository = new PermitRepository();
+  PermitRepository repository = null;
   PermitRepository.setTestingInstance(repository);
   ...
 }
