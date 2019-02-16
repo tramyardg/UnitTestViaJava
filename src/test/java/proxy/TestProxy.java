@@ -9,6 +9,7 @@ import dependency.breaking.pos.IDisplay;
 import dependency.breaking.pos.Interac;
 import dependency.breaking.pos.Sale;
 import org.junit.Test;
+
 import static org.mockito.Mockito.*;
 
 
@@ -32,7 +33,7 @@ public class TestProxy {
         MockInvocationHandler mockHandler = new MockInvocationHandler();
         IDisplay display = (IDisplay) Proxy.newProxyInstance(
                 IDisplay.class.getClassLoader(),
-                new Class[] {IDisplay.class},
+                new Class[]{IDisplay.class},
                 mockHandler);
 
         Sale sale = new Sale(display, hashStorage);

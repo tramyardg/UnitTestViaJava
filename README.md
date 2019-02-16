@@ -87,7 +87,7 @@ You want to see the code behavior, so you make a failing test which tells you th
 ## Java Stack Iterator Question
 Recall that the _iterator_ for the Stack class for Java is incorrect. Write a unit test that would characterize the actual behavior of the Java Stack's iterator. See [test](https://github.com/tramyardg/UnitTestViaJava/blob/master/src/test/java/characterization/test/TestStack.java) for full details.
 
-```
+```java
 @Test
 public void testStack() {
   Stack<Integer> stack = new Stack<Integer>();
@@ -111,7 +111,7 @@ public void testStack() {
 
 ### What is the output of the following code?
 
-```
+```java
 Stack<Integer> mockStack = mock(Stack.class);
 when(mockStack.pop()).thenReturn(3, 2, 1);
 mockStack.pop();
@@ -152,7 +152,7 @@ Solves the problem of hidden dependencies in constructor, so we can inject depen
 
 ### Mail checker example
 We start with this:
-```
+```java
 public class MailChecker {
   public MailChecker(int checkPeriodSeconds) {
     this.receiver = new MailReceiver();
@@ -163,7 +163,7 @@ public class MailChecker {
 ```
 
 Then we make a copy of the constructor, add parameter `MailReceiver receiver`, and assign that parameter to the instance variable getting rid of the `new` expression:
-```
+```java
 public class MailChecker {
   public MailChecker(int checkPeriodSeconds) {
     this.receiver = new MailReceiver();
@@ -178,7 +178,7 @@ public class MailChecker {
 ```
 
 Lastly, we go back to the original constructor and remove its body, replacing it with a call to new constructor. The original constructor uses `new` to create the parameter it needs to pass.
-```
+```java
 public class MailChecker {
   public MailChecker(int checkPeriodSeconds) {
     this(new MailReceiver(), checkPeriodSeconds);
@@ -199,7 +199,7 @@ To _Parameterize Constructor_, follow these steps:
 
 ### Pixel example
 Consider the following constructor:
-```
+```java
 public Pixel {
   public Pixel(Color color) {
     this.color = color;
@@ -213,7 +213,7 @@ public Pixel {
 2. Make the change behavior preserving
 3. Mock out the position and color
 
-```
+```java
 public Pixel {
   public Pixel(Color color) {
     this(new Position(23, 4, 52), color);
@@ -226,7 +226,7 @@ public Pixel {
 }
 ```
 For number three:
-```
+```java
 @Test
 public void test() {
   Position position = mock(Position.class);
@@ -260,7 +260,7 @@ Is a solution for construction blob. To _Supersede Instance Variable_, follow th
 3. In the method, write whatever code you need to, so that you destroy the previous instance of the variable and set it to the new value. If the variable is a reference, verify that there are not any other references in the class to the object it points to. If there are you might have an additional work to do in superseding method to make sure that replacing the object is safe and has the right effect.
 
 ### Sale Example
-```
+```java
 public class Sale {
   private Display display;
   private Storage storage;
@@ -282,7 +282,7 @@ public class Sale {
 }
 ```
 Now the test:
-```
+```java
 @Test
 public void testSupersedeInterac() {
   Display mockDisplay = mock(Display.class);
@@ -297,7 +297,7 @@ public void testSupersedeInterac() {
 ```
 
 ### Pane Example
-```
+```java
 class Pane {
   private FocusWidget cursor;
   public Pane(WashBrush brush, Pattern backdrop) {
@@ -312,7 +312,7 @@ class Pane {
 }
 ```
 Now the test:
-```
+```java
 @Test
 public void testSupersedeCursor() {
   WashBrush mockBrush = mock(WashBrush.class);
@@ -338,7 +338,7 @@ So, to run code containing singletons in a test harness, we have to relax the si
 
 Applying the first step, the singleton class `PermitRepository` becomes:
 
-```
+```java
 public class PermitRepository {
   private static PermitRepository instance = null;
   private PermitRepository() {}
@@ -358,7 +358,7 @@ public class PermitRepository {
 
 Now, we'd like to write code like this in our test setup.
 
-```
+```java
 @Before
 public void setUp() {
   PermitRepository repository = new PermitRepository();
@@ -370,7 +370,7 @@ public void setUp() {
 ### Solution 2: reset the singleton
  Introducing static setter is not the only way of handling this situation. Another approach is to add a `resetForTesting()` method to the singleton that looks like this:
 
-```
+```java
 public class PermitRepository {
   private static PermitRepository instance = null;
   ...
@@ -390,7 +390,7 @@ Dependency injection is basically providing the objects that an object needs (it
 
 **Without dependency injection**
 
-```
+```java
 class Car {
   private Wheel wh = new NepaliRubberWheel();
   private Battery bt = new ExcideBattery();
@@ -400,7 +400,7 @@ class Car {
 
 **After using dependency injection**
 Here, we are injecting the dependencies (Wheel and Battery) at runtime. Hence the term : Dependency Injection.
-```
+```java
 class Car {
   private Wheel wh = [Inject an Instance of Wheel (dependency of car) at runtime]
   private Battery bt = [Inject an Instance of Battery (dependency of car) at runtime]
@@ -436,7 +436,7 @@ For example, if a developer working on a given feature in a dedicated branch get
 For example, the on-call developers at Facebook responsible for monitoring how new features behave in production (DevOps) need to be able to disable malfunctioning features within seconds to avoid affecting millions of users.
 
 ## Java Reflection
-```
+```java
 Method[] methods = Storage.class.getMethods();
 for (Method method: methods) {
 	System.out.println("method = " + method.getName());
@@ -451,7 +451,7 @@ You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The new
 2. An array of interfaces to implement.
 3. An InvocationHandler to forward all methods calls on the proxy to.
 For example,
-```
+```java
 MyInvocationHandler handler = new MyInvocationHandler();
 MyInterface interface = (MyInterface) Proxy.newProxyInstance(
     MyInterface.class.getClassLoader(),
@@ -469,7 +469,7 @@ See the test [here](https://github.com/tramyardg/UnitTestViaJava/tree/master/src
 
 ## Dependency Injection with Guice
 Class under test
-```
+```java
 class BillingService {
     private final CreditCardProcessor processor;
     private final TransactionLog transactionLog;
@@ -485,7 +485,7 @@ class BillingService {
 ```
 Guice uses _bindings_ to map types to their implementations.
 A _module_ is a collection of bindings specified using fluent, English-like method calls:
-```
+```java
 class BillingModule extends AbstractModule {
     @Override
     protected void configure() {
@@ -504,7 +504,7 @@ class BillingModule extends AbstractModule {
 }
 ```
 Testing
-```
+```java
 @Test
 public void testBilling() {
     /*

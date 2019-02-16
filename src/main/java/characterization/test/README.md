@@ -11,7 +11,7 @@ Here is a little algorithm for writing characterization tests:
 ---
 In the following example, _PageGenerator_ is not going to generate the string _"hello!"_:
 
-```
+```java
 void testGenerator() {
 	PageGenerator generator = new PageGenerator();
 	assertEquals("hello!", generator.generate());
@@ -20,7 +20,7 @@ void testGenerator() {
 Run your test and let it fail. When it does, you have found out what the code actually does under the condition. 
 For instance, _PageGenerator_ actually generates the string _"hi!"_ when its _generate_ method is called:
 
-```
+```java
 org.junit.ComparisonFailure: expected:<h[ello]!> but was:<h[i]!>
 	at org.junit.Assert.assertEquals(Assert.java:115)
 	at org.junit.Assert.assertEquals(Assert.java:144)
@@ -30,7 +30,7 @@ org.junit.ComparisonFailure: expected:<h[ello]!> but was:<h[i]!>
 
 We can alter the test so it passes:
 
-```
+```java
 void testGenerator() {
 	PageGenerator generator = new PageGenerator();
 	assertEquals("hi!", generator.generate());
@@ -41,7 +41,7 @@ void testGenerator() {
 We want to fix the stack iterator of Java. Here is how we do it:
 1. Find out stack iterator type.
 Stack iterator uses vector.
-```
+```java
 @Test
 public void testStackIteratorType() {
   Stack<Integer> stack = new Stack<Integer>();
@@ -57,7 +57,7 @@ public void testStackIteratorType() {
 4. Override the `Iterator` method in `StackProper<E>` and return a new `IteratorStackProper<E>`;
 
 **StackProper**
-```
+```java
 public class StackProper<E> extends Stack<E> {
   @Override
   public synchronized Iterator<E> iterator() {
@@ -70,7 +70,7 @@ public class StackProper<E> extends Stack<E> {
 
 **IteratorStackProper**
 
-```
+```java
 public class IteratorStackProper<E> implements Iterator<E> {
   private StackProper<E> stack;
   public IteratorStackProper(StackProper<E> stack) {
@@ -89,7 +89,7 @@ public class IteratorStackProper<E> implements Iterator<E> {
 ```
 
 Now the correct behavior is achieved!
-```
+```java
 @Test
 public void testStackProper() {
     StackProper<Integer> stack = new StackProper<Integer>();
