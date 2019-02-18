@@ -19,27 +19,16 @@ Note: `EmailSender` is a class under test, do not mock!
 ![image](https://user-images.githubusercontent.com/5623994/52521698-f7e8b000-2c48-11e9-92fd-b99f9ec893f8.png)
 
 **Additional tricks:**
-- __doThrow__: to test a failing dependency, e.g. network dependency
+- __thenThrow(exception)__: to test a failing dependency, e.g. network dependency
 - __Spying__: partially stubbing a dependency instead of completely
 - __ArgumentCaptor__: ensure that a method was called with a range of possible acceptable arguments
 
 ### Verify
 - Once created, a mock will remember all interactions. The you can selectively verify whatever interactions you are interested in.
-
-### Verify InOrder
-- Want to ensure that the interactions happened in a particular order
-- InOrder for the display
+- Syntax: `verify(mockInstance).method()` or `verify(mockInstance).method(args)`
 ```java
-InOrder inOrder = inOrder(display);
-inOrder.verify(display).showLine("1A");
-inOrder.verify(display).showLine("Milk, 3.99");
-```
-
-### Definition and Syntax
-- __verify__: verifies if method was called
-```java
-verify(object).method(arg(s));
-verify(object).method();
+verify(savingAccount).getBalance();
+verify(savingAccount).deposit(100.0);
 ```
 
 ### Verifying some behavior
@@ -60,7 +49,16 @@ public void testVerify() {
 }
 ```
 
-### Testing with stubbing
+### Verify InOrder
+- Want to ensure that the interactions happened in a particular order
+- InOrder for the display
+```java
+InOrder inOrder = inOrder(display);
+inOrder.verify(display).showLine("1A");
+inOrder.verify(display).showLine("Milk, 3.99");
+```
+
+### Testing with **stubbing**
 Mocking concrete classes and/or interfaces by `when(...).thenReturn(...)` and/or `when(...).thenThrow(...)`.
 ```java
   LinkedList<String> mockList = mock(LinkedList.class);
@@ -104,7 +102,6 @@ public void testReturnValue() {
 }  
 ```
 
-### Capturing arguments for further assertions
 ### Spying on real objects
 ```java
 @Test
@@ -151,7 +148,7 @@ public void testInOrder() {
   listIntA.add(1);
   listIntB.add(1);
   
-  //create inOrder object passing any mocks that need to be verified in order
+  // create inOrder object passing any mocks that need to be verified in order
   InOrder orderOfIntAdd = inOrder(listIntA, listIntB);
   // this one below also works, as long as `listIntA.add(1)` is done first
   // InOrder orderOfIntAdd = inOrder(listIntB, listIntA);
