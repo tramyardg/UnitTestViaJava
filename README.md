@@ -351,11 +351,11 @@ public class PermitRepository {
     return instance;
   }
   
-  // introduce static setter
+  // irritating global dependency solution 1: static instance setter
   public static void setTestingInstance(PermitRepository newInstance) {
     instance = newInstance;
   }
-  ...
+  // ...
 }
 ```
 
@@ -375,11 +375,12 @@ public void setUp() {
 ```java
 public class PermitRepository {
   private static PermitRepository instance = null;
-  ...
+  
+  // irritating global dependency solution 2: reset the singleton
   public static void resetForTesting() {
     instance = null;
   }
-  ...
+  // ...
 }
 ```
 
@@ -443,8 +444,60 @@ class BillingService {
     }
     // ... more code
 }
-
 ```
+Sale example
+```java
+class Sale {
+    @Inject
+    HashStorage lookup;
+    
+    @Inject
+    Display display;
+    
+    @Inject
+    Interac interac;
+    
+    @Inject
+    Sale(Display d, HashStorage h, Interac i) {
+        this.display = d;
+        this.lookup = h;
+        this.interac = i;
+    }
+    //...
+}
+```
+
+Sale injector module
+```java
+public class SaleInjectorModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        bind(Display.class).to(Display.class);
+        
+        // you can also use toInstance(instance);
+        bind(Interac.clss).toInstance(new Interact(12));
+        
+        HashStorage hashStorage = new HashStorage();
+        hashStorage.put("1B", "Chocolate");
+        bind(HashStorage.class).toInstance(hashStorage);
+    }
+}
+```
+
+In a main method or a test method.
+```java
+class TestSaleInjector {
+    public static void main(String[] args) {
+        Injector injector = Guice.createInjector(new SaleInjectorModule());
+        Sale sale = injector.getInstance(Sale.class);
+        sale.scan("1B");
+        // notice that there's no need for a constructor and mocks anymore
+        // usually you would have Display, HashStorage, and Interac instances
+        // but now SaleInjectorModule handles that
+    }
+}
+```
+
 Guice uses _bindings_ to map types to their implementations.
 A _module_ is a collection of bindings specified using fluent, English-like method calls:
 ```java
@@ -467,33 +520,37 @@ class BillingModule extends AbstractModule {
 ```
 Testing
 ```java
-@Test
-public void testBilling() {
-    /*
-     * 3.
-     * Guice.createInjector() takes your Modules, and returns a new Injector
-     * instance. Most applications will call this method exactly once, in their
-     * main() method.
-     */
-    Injector injector = Guice.createInjector(new BillingModule());
-
-    // 4.
-    BillingService billingService = injector.getInstance(BillingService.class);
+public class TestBillingService {
+    @Test
+    public void testBilling() {
+        /*
+         * 3. Create an injector instance and initialize it to Guice.createInjector() 
+         * which takes your Modules, and returns a new Injector instance. 
+         * Most applications will call this method exactly once, in their main() method.
+         */
+        Injector injector = Guice.createInjector(new BillingModule());
+    
+        // 4. Calling the class under test
+        BillingService billingService = injector.getInstance(BillingService.class);
+    }
 }
 ```
 Review
 1. Use inject annotation in class under test
-2. Create a module and use bindings to bind the parameters of the class under test's constructors 
+2a. Create a module class and override configure method 
+2b. Inside the configure method, use bindings to bind the parameters of the class under test's constructors 
 3a. Create an `Injector` instance.
 3b. Initialize the injector with `Guice.createInjector(moduleName)` which takes module as parameter
 4. You can now create a new instance of the class under test and initialize it as
 `injector.getInstance(ClassUnderTest.class)`
 
 ## Java Reflection
+Is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
 ```java
-Method[] methods = Storage.class.getMethods();
+// Show the methods of BillingService class
+Method[] methods = BillingService.class.getMethods();
 for (Method method: methods) {
-	System.out.println("method = " + method.getName());
+    System.out.println('billing service methods :' + method.getName());
 }
 ```
 
