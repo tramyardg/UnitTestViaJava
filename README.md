@@ -535,14 +535,13 @@ public class TestBillingService {
     }
 }
 ```
+
 Review
-1. Use inject annotation in class under test
-2a. Create a module class and override configure method 
-2b. Inside the configure method, use bindings to bind the parameters of the class under test's constructors 
-3a. Create an `Injector` instance.
-3b. Initialize the injector with `Guice.createInjector(moduleName)` which takes module as parameter
-4. You can now create a new instance of the class under test and initialize it as
-`injector.getInstance(ClassUnderTest.class)`
+- Use inject annotation `@Inject` in class under test
+- Create a module class and override the configure method
+- Inside the configure method, use bindings to bind the parameters of constructors 
+- Create an `Injector` instance and initialize it with `Guice.createInjector(moduleName)`
+- You can now create a new instance of the class under test by initializing it as `injector.getInstance(ClassUnderTest.class)`
 
 ## Java Reflection
 Is a language's ability to inspect and dynamically call classes, methods, attributes, etc. at runtime.
@@ -556,25 +555,30 @@ for (Method method: methods) {
 
 ## Proxy
 ### Proxy Design Pattern
+UML diagram
+![proxy design pattern](https://user-images.githubusercontent.com/5623994/52924004-a7341f80-32f8-11e9-95ab-39ba6312a7e4.png)
 
 You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
 1. The ClassLoader that is to "load" the dynamic proxy class.
+`MyInterface.class.getClassLoader()`
 2. An array of interfaces to implement.
+`new Class[] {MyInterface.class}`
 3. An InvocationHandler to forward all methods calls on the proxy to.
+`myHandler`
+
 For example,
 ```java
-MyInvocationHandler handler = new MyInvocationHandler();
-MyInterface interface = (MyInterface) Proxy.newProxyInstance(
-    MyInterface.class.getClassLoader(),
-    new Class[] {MyInterface.class},
-    handler
-);
-// real objects
-MockInvocationHandler mockHandler = new MockInvocationHandler();
-IDisplay display = (IDisplay) Proxy.newProxyInstance(
+public class TestProxy {
+    @Test
+    void testProxy() {
+        MockInvocationHandler mockHandler = new MockInvocationHandler();
+        IDisplay display = (IDisplay) Proxy.newProxyInstance(
             IDisplay.class.getClassLoader(),
             new Class[] {IDisplay.class},
-            mockHandler);            
+            mockHandler
+        );
+    }
+}
 ```
 See the test [here](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy/TestProxy.java)
 

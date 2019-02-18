@@ -1,15 +1,14 @@
 package proxy;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 import dependency.breaking.pos.HashStorage;
 import dependency.breaking.pos.IDisplay;
-import dependency.breaking.pos.Interac;
 import dependency.breaking.pos.Sale;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import static org.mockito.Mockito.*;
 
