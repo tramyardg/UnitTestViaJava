@@ -333,7 +333,7 @@ public void testSupersedeCursor() {
 - The whole idea of the _singleton pattern_ is to make it impossible to create more than one instance of a singleton in an application.
 - That might be fine in production code, but, it is particularly hard to fake and when testing, each test in a suite of tests should be a mini-application, in a way: It should be totally isolated from the other tests.
 
-### Solution 1: static setter for instance variable
+### Solution 1: static setter for instance variable (static void method with argument)
 So, to run code containing singletons in a test harness, we have to relax the singleton property. Here's how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
 
 Applying the first step, the singleton class `PermitRepository` becomes:
@@ -369,7 +369,7 @@ public void setUp() {
 }
 ```
 
-### Solution 2: reset the singleton
+### Solution 2: reset the singleton (static void)
  Introducing static setter is not the only way of handling this situation. Another approach is to add a `resetForTesting()` method to the singleton that looks like this:
 
 ```java
