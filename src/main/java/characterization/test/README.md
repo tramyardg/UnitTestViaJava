@@ -40,7 +40,7 @@ void testGenerator() {
 ## StackProper and IteratorStackProper
 We want to fix the stack iterator of Java. Here is how we do it:
 1. Find out stack iterator type.
-Stack iterator uses vector.
+Stack iterator uses a vector.
 ```java
 @Test
 public void testStackIteratorType() {
@@ -61,9 +61,9 @@ public void testStackIteratorType() {
 public class StackProper<E> extends Stack<E> {
   @Override
   public synchronized Iterator<E> iterator() {
-    // old behaving iterator
-    // return super.iterator();
-	return new IteratorStackProper<E>(this);
+    // old behaving iterator: return super.iterator();
+    // new iterator with proper behaviour
+    return new IteratorStackProper<E>(this);
   }
 }
 ```
@@ -77,8 +77,9 @@ public class IteratorStackProper<E> implements Iterator<E> {
 	this.stack = stack;
   }
   @Override
-  public boolean hasNext() {
-	return !stack.isEmpty();
+  public boolean hasNext() { 
+    // returns true if stack is not empty
+    return !stack.isEmpty();
   }
   @Override
   public E next() {
