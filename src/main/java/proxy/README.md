@@ -7,7 +7,6 @@ You create dynamic proxies using the `Proxy.newProxyInstance()` method. The `new
 
 ## Proxy Pattern
 ![image](https://user-images.githubusercontent.com/5623994/52524680-bdddd500-2c6d-11e9-8ee7-3af61b3647d4.png)
-![image](https://user-images.githubusercontent.com/5623994/52525351-5aa47080-2c76-11e9-8127-29519cac0d15.png)
 
 ## Types of Proxies
 - A virtual proxy for expensive to create objects
@@ -22,8 +21,9 @@ You create dynamic proxies using the `Proxy.newProxyInstance()` method. The `new
 Imported from `import java.lang.reflect.InvocationHandler;`
 
 ### `MyInvocationHandler` implements `InvocationHandler`
-```
+```java
 public class MyInvocationHandler implements InvocationHandler {
+  @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     System.out.println(proxy.getClass());
     System.out.println(method.getName());
@@ -36,7 +36,7 @@ public class MyInvocationHandler implements InvocationHandler {
 ```
 
 For example:
-```
+```java
 MyInvocationHandler handler = new MyInvocationHandler();
 MyInterface proxy = (MyInterface) Proxy.newProxyInstance(
 	MyInterface.class.getClassLoader(),
