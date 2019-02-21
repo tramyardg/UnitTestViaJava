@@ -39,7 +39,7 @@
 - __separation__: we break dependencies to separate when _we can't even get a piece of code_ into a test harness to run.
 - __test harness__ is a piece of software that enables unit testing.
 - __test-driven development__ is a development process that consists of writing failing test cases and satisfying them one at a time. As you do this, you refactor to keep the code as simple as possible. Code developed using TDD has test coverage, by default.
-- __unit test__ is a **test that runs in less than 1/10th of a second** and is small enough to **help you localize problems** when it fails.
+- __unit test__ is a **test that runs in less than 1/10th of a second** and is **small enough to help you localize problems** when it fails.
 
 ## Source Code
 |src|Main |Test |
@@ -48,6 +48,8 @@
 |Characterization test|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/characterization/test)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/characterization/test)|
 |Dependency breaking|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/dependency/breaking)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/dependency/breaking)|
 |Mockito|---|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/mockito)|
+|Proxy|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/proxy)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy)|
+|Singleton|[link](https://github.com/tramyardg/UnitTestViaJava/blob/master/src/main/java/PermitRepository.java)|---|
 
 ## UML Class Diagram
 ![uml_class_diagram](https://user-images.githubusercontent.com/5623994/51428593-87afb700-1bd3-11e9-9d81-57fdf0f460ee.png)
@@ -253,13 +255,13 @@ The case of construction blob
 - We could parameterize constructors but the parameter list would become massive.
 - We can supersede instance variable.
 
-## Supersede Instance Variable
+### Supersede Instance Variable
 Is a solution for construction blob. To _Supersede Instance Variable_, follow these steps:
 1. Identify the instance variable that you want to supersede.
 2. Create a method named `supersedeXXX`, where `XXX` is the named of the variable you want to supersede.
 3. In the method, write whatever code you need to, so that you destroy the previous instance of the variable and set it to the new value. If the variable is a reference, verify that there are not any other references in the class to the object it points to. If there are you might have an additional work to do in superseding method to make sure that replacing the object is safe and has the right effect.
 
-### Sale Example
+#### Sale Example
 ```java
 public class Sale {
   private Display display;
@@ -296,7 +298,7 @@ public void testSupersedeInterac() {
 }
 ```
 
-### Pane Example
+#### Pane Example
 ```java
 class Pane {
   private FocusWidget cursor;
@@ -333,7 +335,7 @@ public void testSupersedeCursor() {
 - The whole idea of the _singleton pattern_ is to make it impossible to create more than one instance of a singleton in an application.
 - That might be fine in production code, but, it is particularly hard to fake and when testing, each test in a suite of tests should be a mini-application, in a way: It should be totally isolated from the other tests.
 
-### Solution 1: static setter for instance variable
+### Solution 1: static setter for instance variable (static void method with argument)
 So, to run code containing singletons in a test harness, we have to relax the singleton property. Here's how we can do it. The first step is to **add a new static method** to the singleton class. This method allows us to replace the static instance in the singleton. We'll call it `setTestingInstance`.
 
 Applying the first step, the singleton class `PermitRepository` becomes:
@@ -369,7 +371,7 @@ public void setUp() {
 }
 ```
 
-### Solution 2: reset the singleton
+### Solution 2: reset the singleton (static void)
  Introducing static setter is not the only way of handling this situation. Another approach is to add a `resetForTesting()` method to the singleton that looks like this:
 
 ```java
@@ -431,20 +433,7 @@ class Car {
 ```
 
 ## Dependency Injection with Guice
-Class under test
-```java
-class BillingService {
-    private final CreditCardProcessor processor;
-    private final TransactionLog transactionLog;
-  
-    @Inject
-    BillingService(CreditCardProcessor processor, TransactionLog log) {
-        this.processor = processor;
-        this.transactionLog = log;
-    }
-    // ... more code
-}
-```
+
 Sale example
 ```java
 class Sale {
@@ -498,6 +487,21 @@ class TestSaleInjector {
 }
 ```
 
+Class under test
+```java
+class BillingService {
+    private final CreditCardProcessor processor;
+    private final TransactionLog transactionLog;
+  
+    @Inject
+    BillingService(CreditCardProcessor processor, TransactionLog log) {
+        this.processor = processor;
+        this.transactionLog = log;
+    }
+    // ... more code
+}
+```
+
 Guice uses _bindings_ to map types to their implementations.
 A _module_ is a collection of bindings specified using fluent, English-like method calls:
 ```java
@@ -518,6 +522,7 @@ class BillingModule extends AbstractModule {
     }
 }
 ```
+
 Testing
 ```java
 public class TestBillingService {
@@ -559,11 +564,11 @@ UML diagram
 ![proxy design pattern](https://user-images.githubusercontent.com/5623994/52924004-a7341f80-32f8-11e9-95ab-39ba6312a7e4.png)
 
 You create a dynamic proxies using `Proxy.newProxyInstance(...)` method. The newProxyInstance() methods takes 3 parameters:
-1. The ClassLoader that is to "load" the dynamic proxy class.
+1. The ClassLoader that is to "load" the dynamic proxy class. <br />
 `MyInterface.class.getClassLoader()`
-2. An array of interfaces to implement.
+2. An array of interfaces to implement. <br />
 `new Class[] {MyInterface.class}`
-3. An InvocationHandler to forward all methods calls on the proxy to.
+3. An InvocationHandler to forward all methods calls on the proxy to. <br />
 `myHandler`
 
 For example,
@@ -594,7 +599,7 @@ There are three types of toggles: **development**, **long-term business**, and *
 Therefore, many major companies doing rapid releases prefer to work from a single master branch (trunk) in their version control system and use feature toggles instead of feature branches to isolate feature development. 
 
 #### Flexible Feature Roll-out
-In particular, feature toggles provide the flexibility to gradually roll out features and do user â€œexperimentsâ€� (A/B testing) on new features. For example, â€œEvery day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impactâ€� [11]. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
+In particular, feature toggles provide the flexibility to gradually roll out features and do user experiments (A/B testing) on new features. For example, â€œEvery day, we [Facebook] run hundreds of tests on Facebook, most of which are rolled out to a random sample of people to test their impact. If a new feature does not work well, it is toggled off.  The ability to flexibly enable and disable feature sets to specific groups of users to determine their effectiveness early on, reduces the investment in features that are not profitable.
 
 #### Enabling Fast Context Switches
 For example, if a developer working on a given feature in a dedicated branch gets a request to fix an urgent bug, she needs to switch to another branch, fix the bug and test it, then switch back to the original branch to continue feature development. Developers often mistake the branch they are in, leading to commits to the wrong branch. According to Ho, toggling requires less effort than switching branches, hence it reduces the potential of unwanted check-ins and accompanying broken builds.

@@ -27,8 +27,8 @@ public class TestMocking {
         mockList.get(0);
 
 
-        verify(mockList).add("one");
         verify(mockList).get(0);
+        verify(mockList).add("one");
 
         assertEquals("first", mockList.get(0));
 
@@ -53,11 +53,14 @@ public class TestMocking {
         mockList.add("test");
         // argument captor of type string
         ArgumentCaptor<String> argCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockList).add(argCaptor.capture());
+
+        assertEquals("test", argCaptor.getValue());
     }
 
     @Test
     public void testListSpy() {
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         List<String> listSpy = spy(list);
 
         when(listSpy.size()).thenReturn(100);

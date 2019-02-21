@@ -24,8 +24,9 @@ You create dynamic proxies using the `Proxy.newProxyInstance()` method. The `new
 Imported from `import java.lang.reflect.InvocationHandler;`
 
 ### `MyInvocationHandler` implements `InvocationHandler`
-```
+```java
 public class MyInvocationHandler implements InvocationHandler {
+  @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     System.out.println(proxy.getClass());
     System.out.println(method.getName());
@@ -38,7 +39,7 @@ public class MyInvocationHandler implements InvocationHandler {
 ```
 
 For example:
-```
+```java
 MyInvocationHandler handler = new MyInvocationHandler();
 MyInterface proxy = (MyInterface) Proxy.newProxyInstance(
 	MyInterface.class.getClassLoader(),

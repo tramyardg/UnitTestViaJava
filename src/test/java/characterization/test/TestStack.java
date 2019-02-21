@@ -57,8 +57,8 @@ public class TestStack {
         // [main] INFO characterization.test.TestStack - pop 1
         // [main] INFO characterization.test.TestStack - pop 1
 
-        // will fail (NullPointerException)
-        // log.info("peek {}", mockStack.peek().intValue());
+        // peek null - [INFO ]
+        log.info("peek {}", mockStack.peek());
     }
 
     @Test
