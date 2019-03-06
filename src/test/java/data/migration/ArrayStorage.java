@@ -20,4 +20,12 @@ public class ArrayStorage extends HashStorage {
     public String barcode(String barcode) {
         return super.barcode(barcode);
     }
+
+    public void forklift() {
+        // getMap() from HashStorage is the old storage
+        for (String barcode: getMap().keySet()) {
+            // barcode will be the index of array
+            this.array[Integer.parseInt(barcode)] = getMap().get(barcode);
+        }
+    }
 }

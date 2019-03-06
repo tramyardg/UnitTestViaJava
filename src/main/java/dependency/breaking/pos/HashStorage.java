@@ -8,6 +8,11 @@ import java.util.HashMap;
 public class HashStorage implements IStorage {
 
     private final Logger log = LogManager.getLogger();
+
+    public HashMap<String, String> getMap() {
+        return map;
+    }
+
     private HashMap<String, String> map = new HashMap<>();
 
     public void put(String barcode, String item) {
