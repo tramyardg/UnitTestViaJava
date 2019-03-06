@@ -18,6 +18,12 @@ public class ArrayStorage extends HashStorage {
         return newStorage;
     }
 
+
+    public void testingHashPut(String barcode, String item) {
+        super.put(barcode, item);
+        // no shadow write
+    }
+
     @Override
     public void put(String barcode, String item) {
         super.put(barcode, item);
@@ -25,6 +31,8 @@ public class ArrayStorage extends HashStorage {
         // shadow write asynchronously
         // writing directly to new storage
         newStorage[stringNum2Int(barcode)] = item;
+
+        checkConsistency();
     }
 
     @Override

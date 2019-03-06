@@ -11,18 +11,6 @@ public class ArrayStorageTest {
 
     private final Logger LOG = LogManager.getLogger();
 
-    private ArrayStorage commonStorage = new ArrayStorage();
-
-    @Before
-    public void setUp() {
-        commonStorage.put("5", "Milk, 3.99");
-        commonStorage.put("1", "Chocolate, 11.99");
-        commonStorage.put("2", "Cigar, 7.99");
-        commonStorage.put("3", "Apple, 1.99");
-        // don't forget to call the forklift to migrate the data to newStorage
-        commonStorage.forklift();
-    }
-
     @Test
     public void test() {
 
@@ -41,7 +29,14 @@ public class ArrayStorageTest {
 
     @Test
     public void testCheckConsistency() {
-        LOG.debug("number of inconsistencies {}", commonStorage.checkConsistency());
+        ArrayStorage s = new ArrayStorage();
+        s.put("5", "Milk, 3.99");
+        s.put("1", "Chocolate, 11.99");
+        s.put("2", "Cigar, 7.99");
+        s.put("3", "Apple, 1.99");
+        // don't forget to call the forklift to migrate the data to newStorage
+        s.forklift();
+        LOG.debug("number of inconsistencies {}", s.checkConsistency());
     }
 
     @Test
@@ -55,6 +50,20 @@ public class ArrayStorageTest {
         // we are writing to the new commonStorage asynchronously
         assertEquals("Apple, 1.99", storage.getNewStorage()[3]);
         LOG.info("inconsistencies {}", storage.checkConsistency());
+    }
+
+    @Test
+    public void testCheckConsistencyFail() {
+        ArrayStorage s = new ArrayStorage();
+        // using put without the shadow write inside it's method
+        s.testingHashPut("3", "Milk, 3.99");
+
+        // 1 inconsistency because the newStorage[3] is empty
+        assertEquals(1, s.checkConsistency());
+
+        // assert now that it is fixed because checkConsistency was called above
+        // inside checkConsistency newStorage[3] = "Milk, 3.99"
+        assertEquals("Milk, 3.99", s.getNewStorage()[3]);
     }
 
 }
