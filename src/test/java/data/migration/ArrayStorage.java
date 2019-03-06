@@ -3,7 +3,6 @@ package data.migration;
 import dependency.breaking.pos.HashStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
 
 public class ArrayStorage extends HashStorage {
     private final Logger LOG = LogManager.getLogger();
@@ -33,9 +32,29 @@ public class ArrayStorage extends HashStorage {
         // getMap() from HashStorage is the old storage
         for (String barcode: getMap().keySet()) {
             // barcode will be the index of newStorage
-            LOG.info("storing HashStorage data into newStorage:array");
-            newStorage[Integer.parseInt(barcode)] = getMap().get(barcode);
-            LOG.info("item stored in newStorage: {}", newStorage[Integer.parseInt(barcode)]);
+            newStorage[stringNum2Int(barcode)] = getMap().get(barcode);
+            LOG.info("item stored in newStorage: {}", newStorage[stringNum2Int(barcode)]);
         }
+    }
+
+    int checkConsistency() {
+        // getMap() value vs comparing newStorage value
+        // expected is of course getMap() value
+        int count = 0;
+
+        for(String barcode: getMap().keySet()) {
+            String expected = getMap().get(barcode);
+            LOG.info("expected: {}", expected);
+            String actual = newStorage[stringNum2Int(barcode)];
+            LOG.info("actual: {}", actual);
+            if (!expected.equals(actual)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int stringNum2Int(String str) {
+        return Integer.parseInt(str);
     }
 }
