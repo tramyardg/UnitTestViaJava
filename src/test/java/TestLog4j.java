@@ -3,7 +3,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 public class TestLog4j {
-    private static Logger log = LogManager.getLogger();
+    private static final Logger log = LogManager.getLogger();
 
     @Test
     public void testRoot() {

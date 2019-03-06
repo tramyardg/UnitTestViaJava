@@ -62,11 +62,9 @@ public class SaleTest {
 
     @Test
     public void testScan() {
-        IDisplay display = mock(IDisplay.class);
         HashStorage storage = mock(HashStorage.class);
         when(storage.barcode("1A")).thenReturn("milk");
 
-        Sale sale = new Sale(display);
         log.info("{}", storage.barcode("1A"));
     }
 

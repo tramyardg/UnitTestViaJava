@@ -1,17 +1,16 @@
 package mockito;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Test;
-import org.mockito.InOrder;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class MockitoTest {
 
