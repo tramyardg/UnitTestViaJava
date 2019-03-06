@@ -4,8 +4,11 @@ import dependency.breaking.pos.HashStorage;
 
 public class ArrayStorage extends HashStorage {
 
-    public ArrayStorage() {
+    // create an array to store the hash data
+    private String[] array;
 
+    ArrayStorage() {
+        this.array = new String[199];
     }
 
     @Override
