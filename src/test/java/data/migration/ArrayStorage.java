@@ -21,6 +21,10 @@ public class ArrayStorage extends HashStorage {
     @Override
     public void put(String barcode, String item) {
         super.put(barcode, item);
+
+        // shadow write asynchronously
+        // writing directly to new storage
+        newStorage[stringNum2Int(barcode)] = item;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class ArrayStorage extends HashStorage {
         for (String barcode: getMap().keySet()) {
             // barcode will be the index of newStorage
             newStorage[stringNum2Int(barcode)] = getMap().get(barcode);
-            LOG.info("item stored in newStorage: {}", newStorage[stringNum2Int(barcode)]);
+            // LOG.info("newStorage[{}]: {}", barcode, newStorage[stringNum2Int(barcode)]);
         }
     }
 
@@ -44,11 +48,12 @@ public class ArrayStorage extends HashStorage {
 
         for(String barcode: getMap().keySet()) {
             String expected = getMap().get(barcode);
-            LOG.info("expected: {}", expected);
             String actual = newStorage[stringNum2Int(barcode)];
-            LOG.info("actual: {}", actual);
             if (!expected.equals(actual)) {
                 count++;
+
+                // fix it by updating the new storage
+                newStorage[stringNum2Int(barcode)] = expected;
             }
         }
         return count;
