@@ -9,7 +9,7 @@ public class HashStorage implements IStorage {
 
     private final Logger log = LogManager.getLogger();
 
-    public HashMap<String, String> getMap() {
+    protected HashMap<String, String> getMap() {
         return map;
     }
 
