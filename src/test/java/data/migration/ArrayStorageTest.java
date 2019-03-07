@@ -64,6 +64,11 @@ public class ArrayStorageTest {
         // assert now that it is fixed because checkConsistency was called above
         // inside checkConsistency newStorage[3] = "Milk, 3.99"
         assertEquals("Milk, 3.99", s.getNewStorage()[3]);
+        // if s.checkConsistency is never called new storage is always empty
+        s.barcode("3");
+
+        // returns Milk, 3.99
+        LOG.info("expected item with barcode 3 {}", s.barcode("3"));
     }
 
 }

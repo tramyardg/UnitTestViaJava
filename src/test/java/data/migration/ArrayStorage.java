@@ -10,6 +10,12 @@ public class ArrayStorage extends HashStorage {
     // create an newStorage to store the hash data
     private String[] newStorage;
 
+    private int readInconsistencies;
+
+    public int getReadInconsistencies() {
+        return readInconsistencies;
+    }
+
     ArrayStorage() {
         this.newStorage = new String[199];
     }
@@ -37,12 +43,21 @@ public class ArrayStorage extends HashStorage {
 
     @Override
     public String barcode(String barcode) {
-        return super.barcode(barcode);
+        String expected = super.barcode(barcode);
+        String actual = newStorage[stringNum2Int(barcode)];
+        // asynchronously
+        if (!expected.equals(actual)) {
+            readInconsistencies++;
+            // fix it
+            newStorage[stringNum2Int(barcode)] = expected;
+        }
+        // return the expected item
+        return expected;
     }
 
     void forklift() {
         // getMap() from HashStorage is the old storage
-        for (String barcode: getMap().keySet()) {
+        for (String barcode : getMap().keySet()) {
             // barcode will be the index of newStorage
             newStorage[stringNum2Int(barcode)] = getMap().get(barcode);
             // LOG.info("newStorage[{}]: {}", barcode, newStorage[stringNum2Int(barcode)]);
@@ -54,7 +69,7 @@ public class ArrayStorage extends HashStorage {
         // expected is of course getMap() value
         int count = 0;
 
-        for(String barcode: getMap().keySet()) {
+        for (String barcode : getMap().keySet()) {
             String expected = getMap().get(barcode);
             String actual = newStorage[stringNum2Int(barcode)];
             if (!expected.equals(actual)) {
