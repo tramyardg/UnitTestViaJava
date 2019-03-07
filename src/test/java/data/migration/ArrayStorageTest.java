@@ -69,6 +69,10 @@ public class ArrayStorageTest {
 
         // returns Milk, 3.99
         LOG.info("expected item with barcode 3 {}", s.barcode("3"));
+
+        // Read and write from new data store (get rid of old data store)
+        s.put("8", "Cigar, 10.99");
+        assertEquals("Cigar, 10.99", s.barcode("8"));
     }
 
 }

@@ -51,8 +51,8 @@ public class ArrayStorage extends HashStorage {
             // fix it
             newStorage[stringNum2Int(barcode)] = expected;
         }
-        // return the expected item
-        return expected;
+        // switch to the new data store (return the item stored in the new storage)
+        return actual;
     }
 
     void forklift() {
