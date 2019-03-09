@@ -65,7 +65,7 @@ public class ArrayStorage extends HashStorage {
     }
 
     int checkConsistency() {
-        // getMap() value vs comparing newStorage value
+        // getMap() value vs newStorage value
         // expected is of course getMap() value
         int count = 0;
 
