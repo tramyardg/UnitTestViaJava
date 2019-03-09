@@ -50,6 +50,7 @@
 |Mockito|---|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/mockito)|
 |Proxy|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/main/java/proxy)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/proxy)|
 |Singleton|[link](https://github.com/tramyardg/UnitTestViaJava/blob/master/src/main/java/PermitRepository.java)|---|
+|Data Migration|[link](https://github.com/tramyardg/UnitTestViaJava/blob/master/src/main/java/data/migration)|[link](https://github.com/tramyardg/UnitTestViaJava/tree/master/src/test/java/data/migration)|
 
 ## UML Class Diagram
 ![uml_class_diagram](https://user-images.githubusercontent.com/5623994/51428593-87afb700-1bd3-11e9-9d81-57fdf0f460ee.png)
