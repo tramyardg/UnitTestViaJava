@@ -17,8 +17,10 @@ public class TestStorageConsistencyChecker {
         checker.updateConsistencyCheck();
         assertTrue(checker.isConsistent());
 
+        // storing new item in the new storage
         storage.put("3", "Wine, 3.99");
         // is not consistent since we don't update the clone storage
+        // assertTrue(checker.isConsistent()) will fail, since itemCheck is behind one item
         assertFalse(checker.isConsistent());
 
         // update price of item 2
