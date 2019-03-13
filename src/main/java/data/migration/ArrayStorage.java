@@ -25,7 +25,7 @@ public class ArrayStorage extends HashStorage {
     }
 
 
-    public void testingHashPut(String barcode, String item) {
+    void testingHashPut(String barcode, String item) {
         super.put(barcode, item);
         // no shadow write
     }
@@ -84,5 +84,10 @@ public class ArrayStorage extends HashStorage {
 
     private int stringNum2Int(String str) {
         return Integer.parseInt(str);
+    }
+
+    // same as new storage getter
+    String[] getNewStorageClone() {
+        return newStorage.clone();
     }
 }
