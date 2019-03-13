@@ -30,6 +30,7 @@ public class ArrayStorage extends HashStorage {
         // no shadow write
     }
 
+    // write from the data store
     @Override
     public void put(String barcode, String item) {
         super.put(barcode, item);
@@ -41,6 +42,7 @@ public class ArrayStorage extends HashStorage {
         checkConsistency();
     }
 
+    // read from the data store
     @Override
     public String barcode(String barcode) {
         String expected = super.barcode(barcode);

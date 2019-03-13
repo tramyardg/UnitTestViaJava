@@ -9,12 +9,12 @@ public class NewStorageConsistencyChecker {
 
     }
 
-    public NewStorageConsistencyChecker(ArrayStorage arrayStorage) {
+    NewStorageConsistencyChecker(ArrayStorage arrayStorage) {
         this.arrayStorage = arrayStorage;
         this.itemCheck = "";
     }
 
-    public void updateConsistencyCheck() {
+    void updateConsistencyCheck() {
         itemCheck = calculateConsistency();
     }
 
@@ -30,7 +30,7 @@ public class NewStorageConsistencyChecker {
         return items;
     }
 
-    public boolean isConsistent() {
+    boolean isConsistent() {
         String actual = calculateConsistency();
         System.out.println("expect = " + itemCheck + "\n" + "actual = " + actual + "\n");
         return itemCheck.equals(actual);
