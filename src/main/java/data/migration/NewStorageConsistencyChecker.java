@@ -20,15 +20,15 @@ public class NewStorageConsistencyChecker {
     }
 
     private String calculateConsistency() {
-        String items = "";
+        StringBuilder items = new StringBuilder();
         String[] newStorageClone = this.arrayStorage.getNewStorageClone();
-
-        for (int i = 0; i < newStorageClone.length; i++) {
-            if (newStorageClone[i] != null) {
-                items += hashValue(newStorageClone[i]) + " ";
+        for (String item : newStorageClone) {
+            if (item != null) {
+                // string builder append function instead of using "+="
+                items.append(hashValue(item));
             }
         }
-        return items;
+        return items.toString();
     }
 
     boolean isConsistent() {
