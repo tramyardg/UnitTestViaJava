@@ -18,7 +18,7 @@ public class ArrayStorage extends HashStorage {
         return readInconsistencies;
     }
 
-    ArrayStorage() {
+    public ArrayStorage() {
         if (StoreToggles.isArrayStorageEnable) {
             this.newStorage = new String[size];
         }
